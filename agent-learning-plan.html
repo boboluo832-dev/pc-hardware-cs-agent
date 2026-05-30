@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 智能体开发学习计划</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#e0e0e0;line-height:1.8}
+.container{max-width:1200px;margin:0 auto;padding:40px 20px}
+header{text-align:center;margin-bottom:60px}
+header h1{font-size:2.5rem;background:linear-gradient(90deg,#667eea,#764ba2,#f093fb);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+header p{color:#a0a0c0;font-size:1.1rem}
+.timeline{position:relative;padding-left:40px}
+.timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,#667eea,#764ba2,#f093fb,#667eea);border-radius:2px}
+.phase{position:relative;margin-bottom:50px}
+.phase::before{content:'';position:absolute;left:-29px;top:20px;width:14px;height:14px;border-radius:50%;background:#667eea;border:3px solid #302b63;box-shadow:0 0 10px rgba(102,126,234,0.5)}
+.phase-header{display:flex;align-items:center;gap:15px;margin-bottom:20px}
+.phase-badge{background:linear-gradient(135deg,#667eea,#764ba2);padding:5px 15px;border-radius:20px;font-size:0.85rem;font-weight:600;white-space:nowrap}
+.phase h2{font-size:1.6rem;color:#fff}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+.card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:25px;backdrop-filter:blur(10px);transition:transform 0.3s,box-shadow 0.3s}
+.card:hover{transform:translateY(-5px);box-shadow:0 10px 40px rgba(102,126,234,0.2);border-color:rgba(102,126,234,0.3)}
+.card h3{color:#667eea;font-size:1.2rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card h3 .icon{font-size:1.4rem}
+.card p{color:#b0b0d0;margin-bottom:12px;font-size:0.95rem}
+.card ul{list-style:none;padding:0}
+.card ul li{padding:6px 0;padding-left:20px;position:relative;color:#c0c0e0;font-size:0.9rem}
+.card ul li::before{content:'▸';position:absolute;left:0;color:#764ba2}
+.summary-box{background:rgba(102,126,234,0.08);border-left:4px solid #667eea;padding:15px 20px;margin-top:15px;border-radius:0 8px 8px 0}
+.summary-box h4{color:#f093fb;font-size:0.9rem;margin-bottom:8px}
+.summary-box p{font-size:0.85rem;color:#a0a0c0;margin:0}
+.agent-types{margin-top:60px;margin-bottom:60px}
+.agent-types h2{text-align:center;font-size:1.8rem;color:#fff;margin-bottom:30px}
+.type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.type-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:25px;text-align:center;transition:transform 0.3s}
+.type-card:hover{transform:scale(1.03);border-color:rgba(240,147,251,0.3)}
+.type-card .type-icon{font-size:2.5rem;margin-bottom:12px}
+.type-card h3{color:#f093fb;margin-bottom:10px}
+.type-card p{color:#a0a0c0;font-size:0.9rem}
+.type-card .difficulty{display:inline-block;margin-top:12px;padding:3px 12px;border-radius:12px;font-size:0.8rem;font-weight:600}
+.difficulty.easy{background:rgba(72,199,142,0.2);color:#48c78e}
+.difficulty.medium{background:rgba(255,183,77,0.2);color:#ffb74d}
+.difficulty.hard{background:rgba(255,82,82,0.2);color:#ff5252}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>AI 智能体开发学习路线</h1>
+<p>从零到生产力 · 系统化学习计划与知识点总结</p>
+</header>
+<div class="timeline">
+
+<!-- Phase 1 -->
+<div class="phase">
+<div class="phase-header">
+<span class="phase-badge">第一阶段 · 2-4 周</span>
+<h2>基础认知与环境搭建</h2>
+</div>
+<div class="cards">
+<div class="card">
+<h3><span class="icon">🧠</span> LLM 基本原理</h3>
+<p>理解大语言模型的工作方式，为后续开发打下认知基础。</p>
+<ul>
+<li>Transformer 架构概览（Attention 机制）</li>
+<li>Token 与 Tokenization 原理</li>
+<li>上下文窗口（Context Window）限制</li>
+<li>Temperature / Top-P 采样策略</li>
+<li>System Prompt vs User Prompt 的区别</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>LLM 本质是"下一个 token 预测器"。理解 token 计费、上下文长度限制、temperature 对输出随机性的影响是调用 API 的前提。不需要深入数学推导，但要知道模型的能力边界在哪里。</p>
+</div>
+</div>
+<div class="card">
+<h3><span class="icon">🔌</span> API 调用基础</h3>
+<p>掌握主流 LLM 提供商的 SDK 使用方法。</p>
+<ul>
+<li>Anthropic Claude API（Messages API）</li>
+<li>OpenAI Chat Completions API</li>
+<li>流式响应（Streaming）处理</li>
+<li>错误处理与重试策略</li>
+<li>API Key 管理与安全实践</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>所有 agent 的底层都是 API 调用。重点掌握：消息格式（role/content）、流式输出处理、rate limit 应对。建议从 Anthropic SDK 入手，其 tool_use 设计最清晰。</p>
+</div>
+</div>
+<div class="card">
+<h3><span class="icon">✍️</span> Prompt Engineering</h3>
+<p>系统化的提示词设计方法论。</p>
+<ul>
+<li>Few-shot / Zero-shot 提示</li>
+<li>Chain-of-Thought（思维链）</li>
+<li>角色设定与约束注入</li>
+<li>输出格式控制（JSON Mode）</li>
+<li>Prompt 版本管理与 A/B 测试</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>Prompt 是 agent 的"灵魂"。好的 prompt 要做到：明确角色、给出示例、约束输出格式、预设边界条件。CoT 能显著提升推理任务准确率。生产环境中 prompt 需要版本管理。</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Phase 2 -->
+<div class="phase">
+<div class="phase-header">
+<span class="phase-badge">第二阶段 · 2-4 周</span>
+<h2>智能体核心机制</h2>
+</div>
+<div class="cards">
+<div class="card">
+<h3><span class="icon">🔧</span> Tool Use / Function Calling</h3>
+<p>让 LLM 具备调用外部工具的能力，是 agent 的核心能力。</p>
+<ul>
+<li>Tool 定义（JSON Schema 描述参数）</li>
+<li>工具调用流程：LLM 决策 → 执行 → 结果回传</li>
+<li>多工具并行调用</li>
+<li>工具结果的错误处理</li>
+<li>安全边界：哪些工具需要人工确认</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>Tool Use 是 agent 从"聊天机器人"进化为"执行者"的关键。核心循环：LLM 输出 tool_use → 你执行工具 → 把 tool_result 回传 → LLM 继续推理。设计工具时要让参数描述足够清晰，LLM 才能正确调用。</p>
+</div>
+</div>
+<div class="card">
+<h3><span class="icon">🔄</span> ReAct 模式</h3>
+<p>推理-行动-观察的循环，是最经典的 agent 架构。</p>
+<ul>
+<li>Reasoning（推理当前状态）</li>
+<li>Action（选择并执行动作）</li>
+<li>Observation（观察执行结果）</li>
+<li>循环终止条件设计</li>
+<li>最大步数限制与超时处理</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>ReAct = Reason + Act。agent 在每一步先"想"（我现在该做什么），再"做"（调用工具），最后"看"（分析结果决定下一步）。关键是设计好终止条件，防止无限循环烧钱。</p>
+</div>
+</div>
+<div class="card">
+<h3><span class="icon">💾</span> Memory 机制</h3>
+<p>让 agent 具备记忆能力，支撑长期交互。</p>
+<ul>
+<li>短期记忆：对话上下文管理</li>
+<li>长期记忆：向量数据库存储</li>
+<li>工作记忆：当前任务状态追踪</li>
+<li>记忆检索：Embedding + 相似度搜索</li>
+<li>记忆淘汰与压缩策略</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>上下文窗口有限，memory 解决"agent 健忘"问题。短期靠滑动窗口/摘要压缩，长期靠向量数据库（如 Pinecone、Chroma）。关键挑战：检索相关性和记忆更新时机。</p>
+</div>
+</div>
+<div class="card">
+<h3><span class="icon">📋</span> 状态管理与对话编排</h3>
+<p>管理复杂的多轮对话流程。</p>
+<ul>
+<li>对话状态机设计</li>
+<li>上下文压缩与摘要</li>
+<li>多轮任务的断点续传</li>
+<li>并发对话隔离</li>
+<li>会话持久化存储</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>生产级 agent 必须处理：用户中途离开后恢复、多用户并发、对话过长时的上下文压缩。状态机模式适合流程固定的场景，自由对话则需要更灵活的状态追踪。</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Phase 3 -->
+<div class="phase">
+<div class="phase-header">
+<span class="phase-badge">第三阶段 · 3-4 周</span>
+<h2>框架实战与 RAG</h2>
+</div>
+<div class="cards">
+<div class="card">
+<h3><span class="icon">🏗️</span> 主流框架掌握</h3>
+<p>选择一个框架深入，快速构建可用的 agent 应用。</p>
+<ul>
+<li>LangChain / LangGraph：图编排、链式调用</li>
+<li>CrewAI：多角色协作框架</li>
+<li>Anthropic Agent SDK：轻量级官方方案</li>
+<li>Vercel AI SDK：前端友好的流式方案</li>
+<li>框架选型原则：复杂度 vs 灵活度权衡</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>框架的价值在于抽象重复逻辑（工具注册、消息管理、错误重试）。初学建议：简单场景直接用 SDK 裸写，复杂编排再引入 LangGraph。不要为了用框架而用框架，理解底层原理比框架 API 更重要。</p>
+</div>
+</div>
+<div class="card">
+<h3><span class="icon">📚</span> RAG（检索增强生成）</h3>
+<p>让 agent 基于私有知识库回答问题。</p>
+<ul>
+<li>文档切分策略（Chunk Size / Overlap）</li>
+<li>Embedding 模型选择与对比</li>
+<li>向量数据库：Chroma / Pinecone / Weaviate</li>
+<li>检索策略：相似度 / MMR / 混合检索</li>
+<li>Reranking 与上下文窗口填充</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>RAG 是最常见的 agent 落地场景。核心流程：文档 → 切片 → Embedding → 存入向量库 → 用户提问时检索相关片段 → 拼入 prompt。难点在切分粒度和检索质量，chunk 太大噪音多，太小丢上下文。</p>
+</div>
+</div>
+<div class="card">
+<h3><span class="icon">🔗</span> MCP（Model Context Protocol）</h3>
+<p>标准化的工具接入协议，agent 生态的连接器。</p>
+<ul>
+<li>MCP 协议架构：Client / Server / Transport</li>
+<li>Resources、Tools、Prompts 三大原语</li>
+<li>编写自定义 MCP Server</li>
+<li>与现有 API 的桥接模式</li>
+<li>安全性：权限控制与沙箱</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>MCP 是 Anthropic 推出的开放协议，目标是让 agent 像 USB 一样即插即用地接入各种数据源和工具。掌握 MCP 意味着你的 agent 可以复用整个生态的 server，而不用每个集成都从零写。</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Phase 4 -->
+<div class="phase">
+<div class="phase-header">
+<span class="phase-badge">第四阶段 · 4-6 周</span>
+<h2>多智能体与高级架构</h2>
+</div>
+<div class="cards">
+<div class="card">
+<h3><span class="icon">👥</span> 多智能体协作</h3>
+<p>多个 agent 分工合作，解决复杂任务。</p>
+<ul>
+<li>角色分工设计（Researcher / Writer / Reviewer）</li>
+<li>通信模式：共享黑板 vs 消息传递</li>
+<li>任务分解与分配策略</li>
+<li>冲突解决与共识机制</li>
+<li>Supervisor 模式 vs Peer-to-Peer 模式</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>多 agent 的核心价值：专业化分工降低单个 agent 的 prompt 复杂度。Supervisor 模式（一个调度者 + 多个执行者）最稳定，适合生产环境。Peer 模式灵活但难调试。关键是设计好 agent 间的信息传递格式。</p>
+</div>
+</div>
+<div class="card">
+<h3><span class="icon">📐</span> Plan-and-Execute 架构</h3>
+<p>先规划再执行，适合复杂多步骤任务。</p>
+<ul>
+<li>Planner Agent：任务分解与计划生成</li>
+<li>Executor Agent：逐步执行计划</li>
+<li>动态重规划：执行失败时调整计划</li>
+<li>计划验证与可行性检查</li>
+<li>人机协作：关键节点人工审批</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>对于需要 5+ 步骤的复杂任务，先让 LLM 生成完整计划再逐步执行，比 ReAct 的逐步摸索更可靠。关键设计：计划要可序列化、支持部分重试、允许人工干预修改。</p>
+</div>
+</div>
+<div class="card">
+<h3><span class="icon">🛡️</span> 安全与可靠性</h3>
+<p>让 agent 在生产环境中安全稳定运行。</p>
+<ul>
+<li>Prompt Injection 防御</li>
+<li>输出验证与 Guardrails</li>
+<li>权限最小化原则</li>
+<li>Human-in-the-Loop 设计</li>
+<li>成本控制与 Token 预算</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>agent 能执行动作意味着风险放大。必须做到：敏感操作需人工确认、输出经过格式校验、工具权限按最小原则分配、设置 token 用量上限防止失控循环。Prompt injection 是最大安全威胁，需要多层防御。</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Phase 5 -->
+<div class="phase">
+<div class="phase-header">
+<span class="phase-badge">第五阶段 · 4-8 周</span>
+<h2>生产化与评估体系</h2>
+</div>
+<div class="cards">
+<div class="card">
+<h3><span class="icon">📊</span> 评估与测试（Eval）</h3>
+<p>量化 agent 的表现，持续迭代优化。</p>
+<ul>
+<li>评估指标设计：准确率、完成率、延迟</li>
+<li>测试集构建：Golden Dataset</li>
+<li>自动化回归测试</li>
+<li>A/B 测试框架</li>
+<li>LLM-as-Judge 评估模式</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>没有 eval 的 agent 就是在盲飞。核心方法：构建标注好的测试用例集，每次改 prompt/工具后跑一遍对比。LLM-as-Judge（用另一个 LLM 评分）是低成本替代人工评估的方案，但要注意评估者偏差。</p>
+</div>
+</div>
+<div class="card">
+<h3><span class="icon">🚀</span> 部署与运维</h3>
+<p>将 agent 从 demo 推向生产环境。</p>
+<ul>
+<li>容器化部署（Docker / K8s）</li>
+<li>异步任务队列（长时间运行的 agent）</li>
+<li>可观测性：日志、Trace、Metrics</li>
+<li>LangSmith / Langfuse 追踪平台</li>
+<li>灰度发布与回滚策略</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>生产级 agent 需要完整的可观测性：每次 LLM 调用的 input/output 都要记录（用 LangSmith 或 Langfuse），方便排查"为什么 agent 做了奇怪的事"。异步队列处理长任务，避免 HTTP 超时。</p>
+</div>
+</div>
+<div class="card">
+<h3><span class="icon">💰</span> 成本优化</h3>
+<p>在效果和成本之间找到最佳平衡点。</p>
+<ul>
+<li>模型分层：简单任务用小模型，复杂任务用大模型</li>
+<li>Prompt Caching 利用</li>
+<li>批量处理（Batch API）</li>
+<li>缓存策略：相似问题复用结果</li>
+<li>Token 用量监控与预警</li>
+</ul>
+<div class="summary-box">
+<h4>知识点总结</h4>
+<p>agent 的成本 = 调用次数 × 每次 token 数 × 单价。优化手段：路由分流（Haiku 处理简单判断，Opus 处理复杂推理）、利用 prompt caching 减少重复计算、对高频相似请求做语义缓存。</p>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- end timeline -->
+
+<!-- Agent Types Section -->
+<div class="agent-types">
+<h2>智能体种类全览</h2>
+<div class="type-grid">
+<div class="type-card">
+<div class="type-icon">💬</div>
+<h3>对话型 Agent</h3>
+<p>基于知识库的问答系统，如客服机器人、FAQ 助手。最简单的 agent 形态，适合入门练手。</p>
+<span class="difficulty easy">入门级</span>
+</div>
+<div class="type-card">
+<div class="type-icon">🔧</div>
+<h3>工具调用型 Agent</h3>
+<p>能搜索网页、查数据库、调用 API 的 ReAct agent。具备"手脚"，能与外部世界交互。</p>
+<span class="difficulty easy">入门级</span>
+</div>
+<div class="type-card">
+<div class="type-icon">📋</div>
+<h3>规划型 Agent</h3>
+<p>能拆解复杂任务、制定执行计划的 Plan-and-Execute agent。适合多步骤工作流。</p>
+<span class="difficulty medium">中级</span>
+</div>
+<div class="type-card">
+<div class="type-icon">👥</div>
+<h3>多智能体系统</h3>
+<p>多个专业 agent 协作：研究员 + 写手 + 审核员。通过分工降低单体复杂度。</p>
+<span class="difficulty medium">中级</span>
+</div>
+<div class="type-card">
+<div class="type-icon">🤖</div>
+<h3>自主型 Agent</h3>
+<p>长时间运行、自我纠错、持续迭代。如 Devin、Claude Code，能独立完成复杂项目。</p>
+<span class="difficulty hard">高级</span>
+</div>
+<div class="type-card">
+<div class="type-icon">🔄</div>
+<h3>工作流 Agent</h3>
+<p>固定流程的自动化编排，如数据处理管道、审批流程。确定性强，适合企业场景。</p>
+<span class="difficulty medium">中级</span>
+</div>
+</div>
+</div>
+
+<!-- Roadmap Summary -->
+<h2 style="text-align:center;color:#fff;font-size:1.8rem;margin-bottom:30px;">生产力转化时间线</h2>
+<table style="width:100%;border-collapse:collapse;margin-bottom:60px;">
+<thead>
+<tr>
+<th style="padding:14px 18px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.15);background:rgba(102,126,234,0.15);color:#667eea;font-size:0.9rem;">阶段</th>
+<th style="padding:14px 18px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.15);background:rgba(102,126,234,0.15);color:#667eea;font-size:0.9rem;">时间</th>
+<th style="padding:14px 18px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.15);background:rgba(102,126,234,0.15);color:#667eea;font-size:0.9rem;">产出能力</th>
+<th style="padding:14px 18px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.15);background:rgba(102,126,234,0.15);color:#667eea;font-size:0.9rem;">典型项目</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">能写 Demo</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">2-4 周</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">单轮工具调用 agent</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">CLI 翻译工具、代码解释器</td>
+</tr>
+<tr>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">能做内部工具</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">1-2 月</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">带 RAG 的知识库 agent</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">企业文档问答、智能客服</td>
+</tr>
+<tr>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">能上生产</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">2-4 月</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">有监控和评估的完整系统</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">自动化工作流、数据分析 agent</td>
+</tr>
+<tr>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">能设计复杂系统</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">4-6 月</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">多 agent 编排、自定义框架</td>
+<td style="padding:14px 18px;border-bottom:1px solid rgba(255,255,255,0.06);color:#c0c0e0;font-size:0.9rem;">AI 编程助手、自主研究 agent</td>
+</tr>
+</tbody>
+</table>
+
+<footer style="text-align:center;padding:40px 0;color:#606080;font-size:0.85rem;border-top:1px solid rgba(255,255,255,0.05);">
+<p>学习建议：边学边做，每个阶段至少完成一个可运行的项目。理论学习占 30%，动手实践占 70%。</p>
+<p style="margin-top:8px;">Generated for AI Agent Development Learning Path · 2026</p>
+</footer>
+
+</div>
+</body>
+</html>

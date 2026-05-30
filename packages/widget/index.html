@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>智能客服 Widget 开发预览</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .demo-page {
+      text-align: center;
+      color: #6b7280;
+    }
+    h1 { color: #111827; font-size: 24px; }
+    p { font-size: 14px; }
+  </style>
+</head>
+<body>
+  <div class="demo-page">
+    <h1>官网模拟页面</h1>
+    <p>右下角的聊天按钮即为客服 Widget</p>
+  </div>
+  <script type="module" src="/src/embed.ts"></script>
+  <cs-agent-widget data-ws-url="ws://localhost:3000/ws" data-theme="light" data-position="bottom-right"></cs-agent-widget>
+</body>
+</html>

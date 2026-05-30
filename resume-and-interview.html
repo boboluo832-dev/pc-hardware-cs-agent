@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC Hardware CS Agent - 简历模板 & 面试题解析</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #0ea5e9;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --code-bg: #f1f5f9;
+      --sidebar-width: 280px;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      display: flex;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--text);
+      color: #e2e8f0;
+      overflow-y: auto;
+      padding: 24px 0;
+      z-index: 100;
+    }
+    .sidebar-title {
+      padding: 0 20px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+      border-bottom: 1px solid #334155;
+      margin-bottom: 12px;
+    }
+    .sidebar-title span { color: var(--accent); }
+    .nav-section {
+      padding: 8px 20px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+    }
+    .nav-link {
+      display: block;
+      padding: 8px 20px 8px 28px;
+      font-size: 13px;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+    .nav-link:hover {
+      background: #334155;
+      color: white;
+      border-left-color: var(--accent);
+    }
+    .nav-link.active {
+      background: #334155;
+      color: var(--accent);
+      border-left-color: var(--accent);
+    }
+
+    /* Main Content */
+    .main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 40px 60px;
+      max-width: 1000px;
+    }
+
+    /* Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 2px solid var(--border);
+    }
+    .page-header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+    .page-header p { color: var(--text-secondary); font-size: 15px; }
+
+    /* Sections */
+    .section {
+      margin-bottom: 48px;
+      scroll-margin-top: 24px;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .icon {
+      width: 32px;
+      height: 32px;
+      background: var(--primary);
+      color: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      border: 1px solid var(--border);
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--primary-dark);
+    }
+
+    /* Resume Section */
+    .resume-block {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .resume-block::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 12px 12px 0 0;
+    }
+    .resume-label {
+      display: inline-block;
+      padding: 3px 10px;
+      background: #eff6ff;
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .resume-project-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .resume-meta {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .resume-desc { margin-bottom: 16px; font-size: 14px; line-height: 1.8; }
+    .resume-bullets { padding-left: 20px; }
+    .resume-bullets li {
+      font-size: 14px;
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+    .resume-bullets li::marker { color: var(--primary); }
+
+    /* Tech Tags */
+    .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .tech-tag {
+      padding: 3px 10px;
+      background: var(--code-bg);
+      color: var(--text-secondary);
+      font-size: 12px;
+      border-radius: 4px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    /* Interview Q&A */
+    .qa-item {
+      background: var(--card);
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .qa-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .qa-question {
+      padding: 18px 24px;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      user-select: none;
+    }
+    .qa-question::before {
+      content: 'Q';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      color: white;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .qa-question .arrow {
+      margin-left: auto;
+      transition: transform 0.3s;
+      color: var(--text-secondary);
+    }
+    .qa-item.open .qa-question .arrow { transform: rotate(180deg); }
+    .qa-answer {
+      padding: 0 24px 0 64px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+    .qa-item.open .qa-answer {
+      max-height: 800px;
+      padding: 0 24px 20px 64px;
+    }
+    .qa-answer p { font-size: 14px; margin-bottom: 10px; line-height: 1.8; }
+    .qa-answer .highlight {
+      background: #fef3c7;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-weight: 500;
+    }
+    .qa-answer code {
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 13px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+    .qa-category {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+    .cat-arch { background: #ede9fe; color: #6d28d9; }
+    .cat-ai { background: #dbeafe; color: #1d4ed8; }
+    .cat-frontend { background: #d1fae5; color: #065f46; }
+    .cat-backend { background: #fef3c7; color: #92400e; }
+    .cat-db { background: #fee2e2; color: #991b1b; }
+    .cat-eng { background: #e0e7ff; color: #3730a3; }
+
+    /* Data Flow Diagram */
+    .flow-diagram {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 24px;
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+    .flow-diagram pre {
+      color: #e2e8f0;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12.5px;
+      line-height: 1.5;
+      white-space: pre;
+    }
+    .flow-diagram .comment { color: #64748b; }
+    .flow-diagram .highlight-text { color: #38bdf8; }
+    .flow-diagram .success-text { color: #4ade80; }
+
+    /* Architecture Table */
+    .arch-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 12px 0;
+    }
+    .arch-table th {
+      background: var(--primary);
+      color: white;
+      padding: 10px 16px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .arch-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .arch-table tr:hover td { background: #f8fafc; }
+    .arch-table th:first-child { border-radius: 8px 0 0 0; }
+    .arch-table th:last-child { border-radius: 0 8px 0 0; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 24px; }
+    }
+    @media print {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .qa-answer { max-height: none !important; padding: 0 24px 20px 64px !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar">
+    <div class="sidebar-title"><span>PC Hardware</span> CS Agent</div>
+    <div class="nav-section">简历模板</div>
+    <a class="nav-link" href="#resume-ai">AI 工程方向</a>
+    <a class="nav-link" href="#resume-fullstack">全栈开发方向</a>
+    <a class="nav-link" href="#resume-arch">架构设计方向</a>
+    <div class="nav-section">项目解析</div>
+    <a class="nav-link" href="#tech-stack">技术栈总览</a>
+    <a class="nav-link" href="#data-flow">数据流图解</a>
+    <a class="nav-link" href="#highlights">核心技术亮点</a>
+    <div class="nav-section">面试题</div>
+    <a class="nav-link" href="#qa-arch">架构设计类</a>
+    <a class="nav-link" href="#qa-ai">AI / LLM 类</a>
+    <a class="nav-link" href="#qa-frontend">前端工程类</a>
+    <a class="nav-link" href="#qa-backend">后端工程类</a>
+    <a class="nav-link" href="#qa-db">数据库类</a>
+    <a class="nav-link" href="#qa-eng">工程化类</a>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="page-header">
+      <h1>PC Hardware CS Agent</h1>
+      <p>项目简历模板 & 面试题深度解析</p>
+    </div>
+
+    <!-- ==================== 简历模板 ==================== -->
+    <section class="section" id="resume-ai">
+      <h2 class="section-title"><span class="icon">1</span> 简历模板 — AI 工程方向</h2>
+      <div class="resume-block">
+        <span class="resume-label">项目经历</span>
+        <div class="resume-project-title">PC 硬件智能客服 Agent 系统</div>
+        <div class="resume-meta">独立开发 | TypeScript Full-Stack | Claude Tool Use</div>
+        <div class="resume-desc">
+          基于 Claude LLM Function Calling 能力，设计并实现面向 PC 硬件公司的智能客服系统，覆盖售前兼容性咨询、售后故障排查、知识库问答等场景，支持 WebSocket 流式响应和可嵌入式 Chat Widget。
+        </div>
+        <ul class="resume-bullets">
+          <li>设计 <strong>Agent Orchestrator 循环引擎</strong>，实现 Claude Tool Use 协议的完整调用循环，支持单次对话中多轮工具调用（查参数 → 检兼容性 → 生成建议），直到模型返回 end_turn 终止</li>
+          <li>实现<strong>插件式工具注册中心</strong>（Tool Registry），基于 Map + 接口抽象，支持工具动态注册、启用/禁用和统一错误处理，新增工具仅需实现 ToolDefinition 接口</li>
+          <li>构建<strong>硬件兼容性规则引擎</strong>，覆盖 6 种检查类型（机箱↔主板/显卡/散热器/电源、散热器↔CPU插槽、电源↔接口），基于产品 specs JSON 动态匹配</li>
+          <li>设计<strong>动态 System Prompt</strong> 机制，根据会话进展实时注入已收集的上下文信息（Slot Filling），提升多轮对话的问题解决效率</li>
+          <li>使用 Anthropic Prompt Caching（cache_control: ephemeral）优化重复调用成本，降低 Token 消耗</li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Claude API</span>
+          <span class="tech-tag">Tool Use / Function Calling</span>
+          <span class="tech-tag">Prompt Engineering</span>
+          <span class="tech-tag">Fastify</span>
+          <span class="tech-tag">WebSocket</span>
+          <span class="tech-tag">SQLite</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="resume-fullstack">
+      <h2 class="section-title"><span class="icon">2</span> 简历模板 — 全栈开发方向</h2>
+      <div class="resume-block">
+        <span class="resume-label">项目经历</span>
+        <div class="resume-project-title">PC 硬件智能客服系统（全栈）</div>
+        <div class="resume-meta">独立开发 | Monorepo | Fastify + Preact + SQLite</div>
+        <div class="resume-desc">
+          独立设计并开发全栈 AI 客服系统，采用 pnpm Monorepo 架构管理 3 个工作区包，后端提供 HTTP + WebSocket 双通道 API，前端为可嵌入任意网站的 Chat Widget，附带数据管理后台。
+        </div>
+        <ul class="resume-bullets">
+          <li><strong>后端</strong>：基于 Fastify 5 构建高性能服务，实现 HTTP（POST /api/chat）和 WebSocket（/ws）双通道通信，WebSocket 支持流式逐片段推送 AI 回复</li>
+          <li><strong>前端 Widget</strong>：使用 Preact + Web Component（Custom Element + Shadow DOM）开发可嵌入式聊天组件，Vite Library Mode 打包为 IIFE 单文件，宿主页面一行标签即可集成</li>
+          <li><strong>实时通信</strong>：设计 useChat Hook 管理 WebSocket 生命周期，实现流式缓冲区拼接渲染、乐观更新、断线自动重连（3s 延迟）</li>
+          <li><strong>数据层</strong>：SQLite（WAL 模式）存储产品规格和知识库，支持 SKU 精确匹配 + 名称模糊搜索 + 关键词分词检索</li>
+          <li><strong>管理后台</strong>：Server-Side Rendered HTML 管理界面，提供产品和知识库的完整 CRUD，支持 JSON 规格编辑和分类筛选</li>
+          <li><strong>工程化</strong>：pnpm Workspaces + Turborepo 并行构建，共享类型定义包确保前后端类型一致</li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Fastify 5</span>
+          <span class="tech-tag">WebSocket</span>
+          <span class="tech-tag">Preact</span>
+          <span class="tech-tag">Web Component</span>
+          <span class="tech-tag">Shadow DOM</span>
+          <span class="tech-tag">Vite</span>
+          <span class="tech-tag">SQLite</span>
+          <span class="tech-tag">pnpm Monorepo</span>
+          <span class="tech-tag">Turborepo</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="resume-arch">
+      <h2 class="section-title"><span class="icon">3</span> 简历模板 — 架构设计方向</h2>
+      <div class="resume-block">
+        <span class="resume-label">项目经历</span>
+        <div class="resume-project-title">可扩展 AI Agent 客服架构设计与实现</div>
+        <div class="resume-meta">架构设计 + 独立开发 | 插件化 | 流式管道</div>
+        <div class="resume-desc">
+          设计并实现可扩展的 AI Agent 服务架构，核心关注点：工具系统的插件化扩展、流式响应管道的端到端设计、会话状态的生命周期管理。
+        </div>
+        <ul class="resume-bullets">
+          <li>设计<strong>插件式工具架构</strong>：Tool Registry 基于接口抽象 + Map 注册表，支持运行时动态注册/启用/禁用，新增业务工具零侵入核心代码</li>
+          <li>设计<strong>流式响应管道</strong>：Orchestrator StreamCallbacks → WebSocket frame → 前端增量渲染，实现从 LLM 输出到用户可见的端到端低延迟流式体验</li>
+          <li>设计<strong>会话状态管理</strong>：内存 Session Store + Slot Filling 上下文收集 + TTL 过期清理，预留 Redis 替换接口</li>
+          <li>设计<strong>嵌入式组件架构</strong>：Web Component + Shadow DOM 实现完全样式隔离，IIFE 打包支持 CDN 分发，data-* 属性声明式配置</li>
+          <li>设计<strong>Monorepo 包结构</strong>：shared（类型契约）/ server（业务逻辑）/ widget（UI 组件）三层分离，Turborepo 任务编排实现依赖感知的并行构建</li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">系统设计</span>
+          <span class="tech-tag">插件架构</span>
+          <span class="tech-tag">流式管道</span>
+          <span class="tech-tag">Monorepo</span>
+          <span class="tech-tag">Web Component</span>
+          <span class="tech-tag">会话管理</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 技术栈总览 ==================== -->
+    <section class="section" id="tech-stack">
+      <h2 class="section-title"><span class="icon">4</span> 技术栈总览</h2>
+      <table class="arch-table">
+        <thead>
+          <tr><th>层级</th><th>技术选型</th><th>选型理由</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>工程化</td><td>pnpm Workspaces + Turborepo</td><td>Monorepo 管理，共享类型，并行构建</td></tr>
+          <tr><td>后端框架</td><td>Fastify 5 (HTTP + WebSocket)</td><td>高性能、插件化、原生 WS 支持</td></tr>
+          <tr><td>AI 引擎</td><td>Anthropic Claude SDK (Tool Use)</td><td>Function Calling 能力，可控工具循环</td></tr>
+          <tr><td>数据库</td><td>SQLite (better-sqlite3, WAL)</td><td>轻量嵌入式，适合结构化知识库</td></tr>
+          <tr><td>前端 Widget</td><td>Preact + Web Component + Shadow DOM</td><td>极小体积，样式隔离，一行嵌入</td></tr>
+          <tr><td>构建工具</td><td>Vite 6 (Library Mode IIFE) + tsc</td><td>Widget 打包为单文件，可 CDN 分发</td></tr>
+          <tr><td>语言</td><td>TypeScript (ES2022, ESNext)</td><td>全栈类型安全</td></tr>
+          <tr><td>测试</td><td>Vitest 3</td><td>与 Vite 生态一致，速度快</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ==================== 数据流图解 ==================== -->
+    <section class="section" id="data-flow">
+      <h2 class="section-title"><span class="icon">5</span> 数据流图解</h2>
+      <div class="card">
+        <div class="card-title">完整请求链路（一次兼容性咨询）</div>
+        <div class="flow-diagram"><pre>
+<span class="comment">// 用户输入: "我的幻影X1机箱能装RTX 4090吗？显卡长336mm"</span>
+
+<span class="highlight-text">┌─ Widget (Preact) ─────────────────────────────────────────┐</span>
+│  useChat.sendMessage(text)                                 │
+│    → 乐观更新 UI (立即显示用户消息)                          │
+│    → WebSocket.send({ type:"message", content, sessionId })│
+<span class="highlight-text">└────────────────────────┬──────────────────────────────────┘</span>
+                         │ WebSocket /ws
+                         ▼
+<span class="highlight-text">┌─ Fastify Server ───────────────────────────────────────────┐</span>
+│  1. 解析 JSON → 恢复 Session (内存 Map)                     │
+│  2. 调用 orchestrator.handleUserMessage()                   │
+│                                                             │
+│  <span class="success-text">┌─ Orchestrator Loop ─────────────────────────────────┐</span>  │
+│  │  构建请求:                                          │  │
+│  │    • System Prompt (角色 + 产品线 + 会话上下文)       │  │
+│  │    • 历史消息 (多轮)                                 │  │
+│  │    • 工具定义 (3 tools JSON Schema)                  │  │
+│  │                                                     │  │
+│  │  → Claude API (messages.create)                     │  │
+│  │  ← 返回: stop_reason = "tool_use"                   │  │
+│  │    tool: check_compatibility                        │  │
+│  │    input: { sku:"CASE-ATX-001", spec:"336",         │  │
+│  │             check_type:"case_gpu" }                  │  │
+│  │                                                     │  │
+│  │  → Tool Registry.executeTool()                      │  │
+│  │    → SQLite: SELECT specs FROM products WHERE sku=? │  │
+│  │    → 比较: max_gpu_length(380) vs 336               │  │
+│  │    ← { compatible:true, reason:"380mm > 336mm" }    │  │
+│  │                                                     │  │
+│  │  → Claude API (带 tool_result 再次调用)              │  │
+│  │  ← 返回: stop_reason = "end_turn"                   │  │
+│  │    text: "您好！幻影X1最大支持380mm显卡..."          │  │
+│  <span class="success-text">└─────────────────────────────────────────────────────┘</span>  │
+│                                                             │
+│  3. StreamCallbacks.onText() → WebSocket 逐片段推送         │
+│  4. StreamCallbacks.onDone() → 存入 Session 历史            │
+<span class="highlight-text">└────────────────────────┬──────────────────────────────────┘</span>
+                         │ { type:"stream", content:"您好..." }
+                         ▼
+<span class="highlight-text">┌─ Widget ───────────────────────────────────────────────────┐</span>
+│  ws.onmessage → streamBuffer += content                    │
+│    → setMessages() 增量更新最后一条 assistant 消息           │
+│    → 实时渲染 (打字机效果)                                  │
+│  type:"done" → 替换临时消息为最终版本                        │
+<span class="highlight-text">└────────────────────────────────────────────────────────────┘</span>
+</pre></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Tool Use 循环机制</div>
+        <div class="flow-diagram"><pre>
+<span class="comment">// Orchestrator 核心循环伪代码</span>
+
+while (continueLoop) {
+  response = await claude.messages.create({
+    model, system, messages, tools,
+    <span class="success-text">cache_control: { type: "ephemeral" }</span>  <span class="comment">// Prompt Caching</span>
+  })
+
+  if (response.stop_reason === <span class="highlight-text">"tool_use"</span>) {
+    <span class="comment">// Claude 需要调用工具</span>
+    for (block of toolUseBlocks) {
+      result = await <span class="success-text">executeTool</span>(block.name, block.input)
+      toolResults.push({ tool_use_id, content: result })
+    }
+    messages.push({ role:"assistant", content: response.content })
+    messages.push({ role:"user", content: toolResults })
+    <span class="comment">// 继续循环，让 Claude 处理工具结果</span>
+
+  } else {  <span class="comment">// stop_reason === "end_turn"</span>
+    <span class="comment">// Claude 生成了最终回复，退出循环</span>
+    callbacks.onText(finalText)
+    continueLoop = false
+  }
+}
+</pre></div>
+      </div>
+    </section>
+
+    <!-- ==================== 核心技术亮点 ==================== -->
+    <section class="section" id="highlights">
+      <h2 class="section-title"><span class="icon">6</span> 核心技术亮点</h2>
+
+      <div class="card">
+        <div class="card-title">1. Agent Orchestrator — Tool Use 循环引擎</div>
+        <p style="font-size:14px;margin-bottom:8px;">实现完整的 Claude Tool Use 协议循环，模型可在单次对话中连续调用多个工具（如先查产品参数，再做兼容性检查），直到生成最终文本回复。通过 <code>stop_reason</code> 判断是否继续循环，确保工具调用的完整性和可控性。</p>
+        <p style="font-size:13px;color:var(--text-secondary);">关键文件：packages/server/src/agent/orchestrator.ts</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">2. 插件式工具注册中心 (Tool Registry)</div>
+        <p style="font-size:14px;margin-bottom:8px;">基于 Map + ToolDefinition 接口的动态注册机制。新增工具只需实现接口并调用 <code>registerTool()</code>，零侵入核心代码。支持工具的运行时启用/禁用（灰度上线能力），统一的错误捕获和结果序列化。</p>
+        <p style="font-size:13px;color:var(--text-secondary);">关键文件：packages/server/src/tools/registry.ts</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">3. 硬件兼容性规则引擎</div>
+        <p style="font-size:14px;margin-bottom:8px;">覆盖 6 种兼容性检查类型，基于产品 specs JSON 的动态规则匹配（非硬编码）。不兼容时自动提供替代方案建议。策略模式实现，通过 check_type 映射到对应的检查函数。</p>
+        <p style="font-size:13px;color:var(--text-secondary);">关键文件：packages/server/src/tools/compatibility-check.ts</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">4. WebSocket 流式响应管道</div>
+        <p style="font-size:14px;margin-bottom:8px;">端到端流式架构：Orchestrator 通过 StreamCallbacks 接口实时推送文本片段 → WebSocket frame 传输 → 前端 useChat Hook 维护流式缓冲区逐步拼接渲染。用户感知延迟从"等待完整回复"降低到"首个 token 到达即开始显示"。</p>
+        <p style="font-size:13px;color:var(--text-secondary);">关键文件：packages/server/src/api/routes.ts + packages/widget/src/hooks/useChat.ts</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">5. Web Component 嵌入式架构</div>
+        <p style="font-size:14px;margin-bottom:8px;">Custom Element + Shadow DOM 实现完全样式隔离，不受宿主页面 CSS 影响。Vite Library Mode 打包为 IIFE 单文件，支持 CDN 分发。宿主页面只需 <code>&lt;cs-agent-widget data-ws-url="..."&gt;</code> 一行标签即可嵌入。</p>
+        <p style="font-size:13px;color:var(--text-secondary);">关键文件：packages/widget/src/embed.ts</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">6. 动态 System Prompt + Slot Filling</div>
+        <p style="font-size:14px;margin-bottom:8px;">System Prompt 根据会话进展动态注入已收集的上下文（产品型号、购买日期、问题分类）。Slot Filling 模式逐步收集用户信息，让 AI 在后续回复中更精准地解决问题，避免重复询问。</p>
+        <p style="font-size:13px;color:var(--text-secondary);">关键文件：packages/server/src/prompts/system.ts + packages/server/src/session/store.ts</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">7. Monorepo 工程化</div>
+        <p style="font-size:14px;margin-bottom:8px;">pnpm Workspaces 管理 3 个包（shared/server/widget），Turborepo 实现依赖感知的并行构建。共享类型定义包 <code>@cs-agent/shared</code> 确保前后端接口契约一致，编译期即可发现类型不匹配。</p>
+        <p style="font-size:13px;color:var(--text-secondary);">关键文件：pnpm-workspace.yaml + turbo.json + packages/shared/src/index.ts</p>
+      </div>
+    </section>
+
+    <!-- ==================== 面试题 - 架构设计类 ==================== -->
+    <section class="section" id="qa-arch">
+      <h2 class="section-title"><span class="icon">Q</span> 面试题 — 架构设计类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么选择 Monorepo 而不是多仓库？这个项目规模有必要吗？
+          <span class="qa-category cat-arch">架构</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>核心理由：类型安全的跨包共享。</strong></p>
+          <p>这个项目有 3 个包：<code>shared</code>（类型定义）、<code>server</code>（后端）、<code>widget</code>（前端）。前后端通过 WebSocket 通信，消息格式必须一致。Monorepo 让 <code>@cs-agent/shared</code> 的类型变更能在编译期同时被 server 和 widget 感知，避免运行时类型不匹配。</p>
+          <p><strong>即使项目规模不大，Monorepo 的收益也很明确：</strong></p>
+          <p>1. 一次 <code>pnpm dev</code> 启动所有包的开发模式<br>
+          2. 类型变更即时传播，无需发包<br>
+          3. Turborepo 缓存构建产物，CI 只重建变更的包</p>
+          <p><span class="highlight">面试加分点</span>：如果是多仓库，shared 包每次改动都要发 npm 包 → server/widget 更新依赖 → 联调周期变长。对于紧耦合的前后端项目，Monorepo 是更务实的选择。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Tool Registry 的设计有什么优势？如果要新增一个"订单查询"工具，需要改哪些代码？
+          <span class="qa-category cat-arch">架构</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>设计优势：开闭原则（OCP）的实践。</strong></p>
+          <p>Tool Registry 基于 <code>Map&lt;string, ToolDefinition&gt;</code> + 接口抽象，核心代码（orchestrator、routes）完全不感知具体工具的存在。新增工具的步骤：</p>
+          <p>1. 创建 <code>tools/order-query.ts</code>，实现 <code>ToolDefinition</code> 接口（name、description、input_schema、handler）<br>
+          2. 在 <code>tools/index.ts</code> 中调用 <code>registerTool(orderQueryTool)</code><br>
+          3. 完成。Orchestrator 自动通过 <code>getEnabledTools()</code> 获取新工具定义传给 Claude</p>
+          <p><strong>零侵入核心代码</strong>：不需要修改 orchestrator.ts、routes.ts 或任何已有工具文件。</p>
+          <p>额外能力：<code>enabled</code> 字段支持灰度上线——可以先注册但不启用，通过配置或 Admin API 动态开关。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          流式响应的端到端设计是怎样的？如果网络中断怎么处理？
+          <span class="qa-category cat-arch">架构</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>三层流式管道：</strong></p>
+          <p>1. <strong>Orchestrator 层</strong>：通过 <code>StreamCallbacks.onText(chunk)</code> 接口，每收到 Claude 的文本片段就触发回调<br>
+          2. <strong>传输层</strong>：WebSocket route 在 onText 回调中立即 <code>socket.send({ type:"stream", content })</code><br>
+          3. <strong>渲染层</strong>：useChat Hook 维护 <code>streamBufferRef</code>，每收到 stream 事件就拼接并触发 React 状态更新</p>
+          <p><strong>网络中断处理：</strong></p>
+          <p>• 前端 <code>ws.onclose</code> 触发 3 秒后自动重连<br>
+          • 重连后通过 <code>sessionId</code> 恢复已有会话（历史消息保留在服务端 Session 中）<br>
+          • 当前正在生成的回复会丢失，但用户可以重新发送消息继续对话</p>
+          <p><span class="highlight">改进方向</span>：可以加入消息 ACK 机制和客户端消息队列，实现断线期间消息的可靠投递。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 面试题 - AI/LLM 类 ==================== -->
+    <section class="section" id="qa-ai">
+      <h2 class="section-title"><span class="icon">Q</span> 面试题 — AI / LLM 类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Tool Use 循环如何防止无限调用？有没有可能 Claude 一直调用工具不停？
+          <span class="qa-category cat-ai">AI</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>Claude API 自身有终止机制：</strong></p>
+          <p>每次 API 调用返回的 <code>stop_reason</code> 只有两种值：<code>"tool_use"</code>（需要调用工具）或 <code>"end_turn"</code>（生成最终回复）。Claude 在获得足够信息后会自然地选择 end_turn。</p>
+          <p><strong>额外的安全措施（可以在面试中提到的改进方向）：</strong></p>
+          <p>1. 设置最大循环次数（如 max_iterations = 10），超过则强制退出并返回已有文本<br>
+          2. 设置单次对话的 token 预算上限<br>
+          3. 在 System Prompt 中明确指导："如果工具未返回有用结果，不要重复调用，直接告知用户"</p>
+          <p><span class="highlight">实际经验</span>：在 PC 硬件客服场景中，典型对话只需 1-2 次工具调用（查参数 + 检兼容性），极少超过 3 次。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          System Prompt 为什么要动态注入会话上下文？直接让 Claude 从历史消息中提取不行吗？
+          <span class="qa-category cat-ai">AI</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>三个原因：</strong></p>
+          <p>1. <strong>减少 Token 消耗</strong>：历史消息可能很长，但关键上下文（产品型号、问题分类）只需几行。动态注入到 System Prompt 中，Claude 不需要每次都从长历史中"重新理解"</p>
+          <p>2. <strong>提升准确性</strong>：结构化的上下文（"用户咨询的产品型号：CASE-ATX-001"）比让模型从自然语言对话中提取更可靠，避免遗漏或误解</p>
+          <p>3. <strong>配合 Prompt Caching</strong>：System Prompt 的静态部分（角色定义、行为准则）可以被缓存，只有动态上下文部分变化。使用 <code>cache_control: ephemeral</code> 可以让 Anthropic 缓存不变的前缀，降低重复调用成本</p>
+          <p><span class="highlight">Slot Filling 模式</span>：随着对话进展，逐步收集 productModel、purchaseDate、issueCategory 等信息填入上下文，让后续回复越来越精准。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么用关键词匹配做知识库搜索，而不是向量数据库 + Embedding？
+          <span class="qa-category cat-ai">AI</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>务实的技术选型，匹配当前场景：</strong></p>
+          <p>1. <strong>数据规模小</strong>：知识库只有 7 篇结构化文档，向量检索的优势在大规模非结构化文本中才体现</p>
+          <p>2. <strong>内容高度结构化</strong>：每篇文档有明确的 category（troubleshooting/faq/policy）和 product_line（case/psu/cooler），分类过滤 + 关键词匹配已经足够精准</p>
+          <p>3. <strong>部署简单</strong>：SQLite 零依赖，不需要额外的 Embedding 模型服务或向量数据库（Pinecone/Milvus）</p>
+          <p>4. <strong>成本低</strong>：不需要为每次查询调用 Embedding API</p>
+          <p><strong>什么时候该切换到向量数据库：</strong></p>
+          <p>• 知识库超过 100 篇文档<br>
+          • 用户查询方式多样化（同义词、口语化表达多）<br>
+          • 需要语义理解而非关键词匹配</p>
+          <p><span class="highlight">面试加分</span>：展示了"不过度工程化"的判断力——选择匹配当前规模的方案，同时清楚演进路径。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Prompt Caching 是怎么工作的？在这个项目中节省了多少成本？
+          <span class="qa-category cat-ai">AI</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>Anthropic Prompt Caching 原理：</strong></p>
+          <p>通过在 messages.create 请求中标记 <code>cache_control: { type: "ephemeral" }</code>，Anthropic 会缓存 System Prompt 的前缀部分。同一会话的后续请求如果前缀相同，就不需要重新处理这部分 token。</p>
+          <p><strong>在本项目中的应用：</strong></p>
+          <p>• System Prompt 约 800 tokens（角色定义 + 行为准则 + 产品线知识 + 处理策略）<br>
+          • 每次 Tool Use 循环都会重新调用 API，但 System Prompt 的静态部分不变<br>
+          • 一次典型对话（2-3 轮工具调用）可以节省约 1600-2400 tokens 的输入处理成本</p>
+          <p><strong>缓存命中条件</strong>：请求的前缀（system + 前面的 messages）与缓存完全匹配。动态上下文放在 System Prompt 末尾，最大化可缓存的前缀长度。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 面试题 - 前端工程类 ==================== -->
+    <section class="section" id="qa-frontend">
+      <h2 class="section-title"><span class="icon">Q</span> 面试题 — 前端工程类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么用 Web Component 而不是 iframe 来实现可嵌入式 Widget？
+          <span class="qa-category cat-frontend">前端</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>Web Component + Shadow DOM vs iframe 对比：</strong></p>
+          <p><strong>性能</strong>：iframe 创建独立的浏览上下文（独立的 DOM 树、CSS 引擎、JS 引擎），内存开销大。Web Component 共享主页面的 JS 运行时，只隔离 CSS。</p>
+          <p><strong>通信</strong>：iframe 跨域通信需要 postMessage，异步且繁琐。Web Component 直接通过 DOM 属性（data-*）和事件通信，同步且简单。</p>
+          <p><strong>样式隔离</strong>：Shadow DOM 提供等价于 iframe 的 CSS 隔离效果——宿主页面的样式不会泄漏进来，Widget 的样式也不会影响宿主。</p>
+          <p><strong>SEO 和可访问性</strong>：Web Component 的内容对搜索引擎和屏幕阅读器可见，iframe 内容默认不可索引。</p>
+          <p><strong>体积</strong>：不需要加载完整的 HTML 文档，Widget 打包为 ~30KB 的 IIFE 单文件。</p>
+          <p><span class="highlight">唯一 iframe 更好的场景</span>：需要完全的 JS 沙箱隔离（防止恶意代码访问宿主页面）。客服 Widget 是自有代码，不需要这种级别的安全隔离。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么选 Preact 而不是 React？Widget 场景有什么特殊考虑？
+          <span class="qa-category cat-frontend">前端</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>核心原因：体积。</strong></p>
+          <p>• React + ReactDOM：~40KB gzipped<br>
+          • Preact：~3KB gzipped</p>
+          <p>Widget 是嵌入到<strong>别人的网站</strong>中的第三方脚本，体积直接影响宿主页面的加载性能。13 倍的体积差距在 Widget 场景中是决定性因素。</p>
+          <p><strong>为什么 Preact 够用：</strong></p>
+          <p>• Widget 的 UI 复杂度低（聊天窗口 + 消息列表 + 输入框），不需要 React 的 Concurrent Mode、Suspense 等高级特性<br>
+          • Preact 的 Hooks API 与 React 完全兼容（useState、useEffect、useRef、useCallback 都有）<br>
+          • Vite 对 Preact 的支持完善，开发体验无差异</p>
+          <p><strong>IIFE 打包的考虑</strong>：Widget 不能假设宿主页面用什么框架，所以打包为自包含的 IIFE，不依赖全局的 React 实例。Preact 的小体积让这个方案可行。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          useChat Hook 的流式渲染是怎么实现的？为什么用 Ref 而不是 State 做缓冲区？
+          <span class="qa-category cat-frontend">前端</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>流式渲染机制：</strong></p>
+          <p>1. WebSocket 收到 <code>type:"stream"</code> 事件，将 content 追加到 <code>streamBufferRef.current</code><br>
+          2. 调用 <code>setMessages()</code> 更新最后一条 assistant 消息的 content 为缓冲区全文<br>
+          3. 收到 <code>type:"done"</code> 时，用最终消息替换临时的 streaming 消息，清空缓冲区</p>
+          <p><strong>为什么用 Ref 做缓冲区：</strong></p>
+          <p>• <strong>避免闭包陷阱</strong>：WebSocket 的 onmessage 回调在 useEffect 中注册，如果用 useState 存缓冲区，回调中拿到的永远是注册时的旧值（闭包捕获）<br>
+          • <strong>避免不必要的重渲染</strong>：Ref 的变更不触发组件重渲染，只有最终调用 setMessages 时才触发一次渲染<br>
+          • <strong>高频更新场景</strong>：流式响应可能每 50ms 就有一个 chunk，如果每次都 setState 会导致过多的重渲染。用 Ref 累积，再批量更新 State</p>
+          <p><span class="highlight">注意</span>：实际代码中每个 stream chunk 都会 setMessages（为了实时显示打字效果），但缓冲区本身用 Ref 避免了闭包问题。如果性能敏感，可以加 requestAnimationFrame 节流。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 面试题 - 后端工程类 ==================== -->
+    <section class="section" id="qa-backend">
+      <h2 class="section-title"><span class="icon">Q</span> 面试题 — 后端工程类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Session 为什么用内存 Map 而不是 Redis？什么时候需要切换？
+          <span class="qa-category cat-backend">后端</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>当前选择的合理性：</strong></p>
+          <p>• 单实例部署，不需要跨进程共享会话<br>
+          • 会话 TTL 30 分钟，数据量可控（客服对话通常 5-10 分钟结束）<br>
+          • 内存 Map 读写 O(1)，零网络延迟，零运维成本<br>
+          • 会话数据不需要持久化（客服对话结束即可丢弃）</p>
+          <p><strong>需要切换到 Redis 的信号：</strong></p>
+          <p>1. <strong>多实例部署</strong>：负载均衡后用户可能被路由到不同实例，需要共享会话<br>
+          2. <strong>内存压力</strong>：并发会话数超过数千，每个会话的消息历史占用显著内存<br>
+          3. <strong>服务重启恢复</strong>：需要在部署/重启后恢复活跃会话<br>
+          4. <strong>会话分析</strong>：需要持久化对话记录用于质量分析</p>
+          <p><span class="highlight">代码已预留切换路径</span>：Session Store 模块封装了 createSession/getSession/updateSessionContext 接口，切换存储后端只需修改这一个文件的内部实现。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么提供 HTTP 和 WebSocket 两种通信方式？各自适用什么场景？
+          <span class="qa-category cat-backend">后端</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>双通道设计的考虑：</strong></p>
+          <p><strong>WebSocket (/ws)</strong> — 前端 Widget 使用：</p>
+          <p>• 支持流式推送，用户看到"打字机效果"，体验好<br>
+          • 长连接复用，多轮对话无需重复建连<br>
+          • 双向通信，服务端可主动推送（如超时提醒）</p>
+          <p><strong>HTTP POST (/api/chat)</strong> — 简单集成使用：</p>
+          <p>• 无状态，适合服务端到服务端调用（如其他系统集成）<br>
+          • 不需要维护长连接，适合低频调用<br>
+          • 更容易做负载均衡和 API 网关代理<br>
+          • 适合不支持 WebSocket 的环境（某些企业防火墙）</p>
+          <p><strong>实现差异</strong>：HTTP 模式等待完整回复后一次性返回（onDone 才 resolve），WebSocket 模式逐片段推送（每个 onText 都 send）。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Fastify 相比 Express 有什么优势？为什么选它？
+          <span class="qa-category cat-backend">后端</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>选择 Fastify 5 的理由：</strong></p>
+          <p>1. <strong>性能</strong>：基于 JSON Schema 的序列化优化，吞吐量是 Express 的 2-3 倍<br>
+          2. <strong>原生 WebSocket</strong>：通过 <code>@fastify/websocket</code> 插件无缝集成，路由级别的 WS 支持（不需要单独的 ws 服务器）<br>
+          3. <strong>TypeScript 友好</strong>：内置完善的类型定义，泛型路由（<code>app.post&lt;{ Body: T }&gt;</code>）提供请求体类型推断<br>
+          4. <strong>插件系统</strong>：封装良好的插件注册机制，路由可以按功能模块拆分注册<br>
+          5. <strong>Schema 验证</strong>：内置 JSON Schema 验证，可以在路由级别声明请求/响应格式</p>
+          <p><strong>在本项目中的体现</strong>：WebSocket 路由和 HTTP 路由在同一个 Fastify 实例中共存，通过 <code>app.register()</code> 模块化注册，代码组织清晰。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 面试题 - 数据库类 ==================== -->
+    <section class="section" id="qa-db">
+      <h2 class="section-title"><span class="icon">Q</span> 面试题 — 数据库类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么选 SQLite 而不是 PostgreSQL 或 MongoDB？WAL 模式有什么作用？
+          <span class="qa-category cat-db">数据库</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>SQLite 的适用性：</strong></p>
+          <p>• <strong>嵌入式</strong>：零配置、零运维，随应用启动，不需要独立的数据库服务进程<br>
+          • <strong>数据特征匹配</strong>：产品规格和知识库是结构化数据，关系型查询（JOIN、WHERE、LIKE）比文档型更自然<br>
+          • <strong>规模匹配</strong>：11 个产品 + 7 篇知识库文档，SQLite 单文件完全胜任<br>
+          • <strong>部署简单</strong>：一个 .db 文件跟随代码部署，不需要额外的数据库基础设施</p>
+          <p><strong>WAL (Write-Ahead Logging) 模式的作用：</strong></p>
+          <p>• 默认的 journal 模式下，写操作会阻塞所有读操作<br>
+          • WAL 模式允许<strong>读写并发</strong>：多个读操作可以和一个写操作同时进行<br>
+          • 在客服场景中：Admin 后台写入新产品数据时，不会阻塞正在进行的客服对话查询<br>
+          • 代码中通过 <code>db.pragma("journal_mode = WAL")</code> 一行启用</p>
+          <p><strong>什么时候该换 PostgreSQL</strong>：多实例部署、需要全文搜索（pg_trgm）、数据量超过 GB 级、需要复杂事务。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          产品规格（specs）为什么存为 JSON 字符串而不是拆成多列？
+          <span class="qa-category cat-db">数据库</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>核心原因：不同品类的规格字段完全不同。</strong></p>
+          <p>• 机箱：max_gpu_length、max_cooler_height、supported_motherboards、fan_slots<br>
+          • 电源：wattage、connectors、modular_type、efficiency_rating<br>
+          • 散热器：supported_sockets、tdp、fan_size、noise_level</p>
+          <p>如果拆成列，要么建 4 张不同的表（过度规范化），要么一张宽表有大量 NULL 列（稀疏矩阵）。</p>
+          <p><strong>JSON 存储的优势：</strong></p>
+          <p>• 灵活的 Schema：新增产品线不需要 ALTER TABLE<br>
+          • 工具层直接 <code>JSON.parse(specs)</code> 获取结构化对象，按需取字段<br>
+          • Admin 后台可以直接编辑 JSON，所见即所得</p>
+          <p><strong>权衡</strong>：牺牲了 SQL 层面对 specs 内字段的直接查询能力。但在本项目中，查询入口是 SKU/名称，specs 只在查到产品后由应用层解析使用，所以这个权衡是合理的。</p>
+          <p><span class="highlight">如果用 PostgreSQL</span>：可以用 JSONB 类型 + GIN 索引，既保留灵活性又支持 JSON 路径查询。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          知识库搜索的关键词匹配有什么局限性？如何改进？
+          <span class="qa-category cat-db">数据库</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>当前实现：</strong>将查询文本按空格拆分为关键词，每个关键词对 title 和 content 做 <code>LIKE '%keyword%'</code> 模糊匹配。</p>
+          <p><strong>局限性：</strong></p>
+          <p>1. <strong>无语义理解</strong>："电脑不开机" 搜不到 "电源无法启动" 的文档<br>
+          2. <strong>无相关性排序</strong>：返回结果没有按匹配度排序，LIMIT 5 可能漏掉最相关的<br>
+          3. <strong>性能</strong>：LIKE '%x%' 无法使用索引，全表扫描（当前数据量小所以不是问题）<br>
+          4. <strong>中文分词</strong>：按空格拆分对中文不友好，"散热器不转" 会被当作一个整体</p>
+          <p><strong>渐进式改进方案：</strong></p>
+          <p>• <strong>短期</strong>：SQLite FTS5 全文搜索扩展 + jieba 分词，支持中文分词和 BM25 排序<br>
+          • <strong>中期</strong>：加入同义词表（"不开机" = "无法启动" = "没反应"），扩展查询<br>
+          • <strong>长期</strong>：向量数据库 + Embedding，实现真正的语义搜索</p>
+          <p><span class="highlight">但在当前场景中</span>：Claude 本身会根据用户描述选择合适的搜索关键词传给工具（通过 Prompt 指导），所以 LLM 充当了"语义理解层"，弥补了关键词匹配的不足。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 面试题 - 工程化类 ==================== -->
+    <section class="section" id="qa-eng">
+      <h2 class="section-title"><span class="icon">Q</span> 面试题 — 工程化类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Turborepo 在这个项目中解决了什么问题？没有它会怎样？
+          <span class="qa-category cat-eng">工程化</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>Turborepo 解决的核心问题：构建编排。</strong></p>
+          <p>3 个包之间有依赖关系：server 和 widget 都依赖 shared。构建顺序必须是 shared → server/widget（并行）。</p>
+          <p><strong>没有 Turborepo 的痛点：</strong></p>
+          <p>• 手动维护构建顺序（写 shell 脚本串联 build 命令）<br>
+          • 改了 shared 的类型后，要手动重新构建 server 和 widget<br>
+          • CI 中每次都全量构建所有包，即使只改了 widget 的样式</p>
+          <p><strong>Turborepo 提供的能力：</strong></p>
+          <p>1. <strong>依赖感知</strong>：自动分析包间依赖，确定正确的构建顺序<br>
+          2. <strong>并行执行</strong>：无依赖关系的任务自动并行（server 和 widget 同时构建）<br>
+          3. <strong>增量构建</strong>：基于文件 hash 的缓存，未变更的包跳过构建<br>
+          4. <strong>任务管道</strong>：<code>turbo.json</code> 中声明 build/dev/test 的依赖关系</p>
+          <p><span class="highlight">实际效果</span>：<code>pnpm dev</code> 一条命令同时启动 server（tsx watch）和 widget（vite dev），shared 变更时自动触发下游重编译。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Widget 为什么打包为 IIFE 而不是 ESM？有什么权衡？
+          <span class="qa-category cat-eng">工程化</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>IIFE (Immediately Invoked Function Expression) 的必要性：</strong></p>
+          <p>Widget 是嵌入到<strong>第三方网站</strong>的脚本，无法假设宿主页面的构建环境：</p>
+          <p>• 宿主可能是纯 HTML 页面（无构建工具），只能用 <code>&lt;script src="..."&gt;</code> 加载<br>
+          • 宿主可能用 Webpack/Vite/Rollup 等不同打包器，ESM 的 import map 配置各异<br>
+          • 宿主可能不支持 ES Modules（老旧浏览器或特殊环境）</p>
+          <p><strong>IIFE 的优势：</strong></p>
+          <p>• 自执行、自包含，加载即运行，零配置<br>
+          • 不污染全局作用域（所有代码在闭包内）<br>
+          • 兼容所有加载方式：<code>&lt;script&gt;</code>、动态 <code>createElement('script')</code>、CDN</p>
+          <p><strong>权衡</strong>：不支持 Tree Shaking（但 Widget 本身就是最终产物，不需要被其他代码 import）。不支持代码分割（但 Widget 体积小，单文件加载更快）。</p>
+          <p><strong>Vite Library Mode 配置</strong>：<code>build.lib.formats: ['iife']</code> + <code>build.lib.name: 'CSAgentWidget'</code>，输出 <code>cs-agent-widget.iife.js</code> 单文件。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          如果要将这个项目部署到生产环境，你会做哪些改进？
+          <span class="qa-category cat-eng">工程化</span>
+          <span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>按优先级排列的生产化改进：</strong></p>
+          <p><strong>P0 - 必须做：</strong></p>
+          <p>• Admin 后台加鉴权（JWT / Basic Auth），当前无任何访问控制<br>
+          • 环境变量验证（启动时检查 ANTHROPIC_API_KEY 是否存在）<br>
+          • 请求限流（Rate Limiting），防止 API 被滥用导致 Claude 费用失控<br>
+          • CORS 配置收紧（当前默认 *）</p>
+          <p><strong>P1 - 应该做：</strong></p>
+          <p>• Session Store 切换 Redis（支持多实例部署 + 服务重启恢复）<br>
+          • 结构化日志（pino，Fastify 原生支持）+ 对话记录持久化<br>
+          • Tool Use 循环加最大迭代次数限制<br>
+          • 健康检查增加数据库连通性验证<br>
+          • Widget 资源上 CDN + 版本化文件名</p>
+          <p><strong>P2 - 可以做：</strong></p>
+          <p>• Docker 容器化 + docker-compose（server + 可选 Redis）<br>
+          • 知识库搜索升级 FTS5 全文索引<br>
+          • 对话质量监控（满意度评分、转人工率）<br>
+          • A/B 测试不同 System Prompt 版本的效果</p>
+          <p><span class="highlight">面试技巧</span>：展示你知道"什么该做什么不该做"的判断力，比列出所有可能的改进更有价值。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Sidebar active state on scroll
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.remove('active'));
+          const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Auto-open first QA item in each section
+    document.querySelectorAll('.section[id^="qa-"] .qa-item:first-child').forEach(item => {
+      item.classList.add('open');
+    });
+  </script>
+</body>
+</html>
