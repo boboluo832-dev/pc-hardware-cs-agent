@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PC Hardware CS Agent - 面试题深度解析</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #0ea5e9;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --code-bg: #f1f5f9;
+      --sidebar-width: 280px;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      display: flex;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--text);
+      color: #e2e8f0;
+      overflow-y: auto;
+      padding: 24px 0;
+      z-index: 100;
+    }
+    .sidebar-title {
+      padding: 0 20px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      color: white;
+      border-bottom: 1px solid #334155;
+      margin-bottom: 12px;
+    }
+    .sidebar-title span { color: var(--accent); }
+    .nav-section {
+      padding: 10px 20px 4px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #94a3b8;
+    }
+    .nav-link {
+      display: block;
+      padding: 7px 20px 7px 28px;
+      font-size: 13px;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+    .nav-link:hover { background: #334155; color: white; border-left-color: var(--accent); }
+    .nav-link.active { background: #334155; color: var(--accent); border-left-color: var(--accent); }
+    .main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 40px 60px;
+      max-width: 960px;
+    }
+    .page-header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 2px solid var(--border);
+    }
+    .page-header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+    .page-header p { color: var(--text-secondary); font-size: 14px; }
+    .section { margin-bottom: 40px; scroll-margin-top: 24px; }
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-title .num {
+      width: 28px; height: 28px;
+      background: var(--primary); color: white;
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; flex-shrink: 0;
+    }
+    .qa-item {
+      background: var(--card);
+      border-radius: 10px;
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .qa-item:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.07); }
+    .qa-question {
+      padding: 16px 20px;
+      font-weight: 600;
+      font-size: 14.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      user-select: none;
+    }
+    .qa-question::before {
+      content: 'Q';
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px;
+      background: var(--primary); color: white;
+      border-radius: 5px; font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+    .qa-question .arrow {
+      margin-left: auto;
+      transition: transform 0.3s;
+      color: var(--text-secondary);
+      font-size: 12px;
+    }
+    .qa-item.open .qa-question .arrow { transform: rotate(180deg); }
+    .qa-answer {
+      padding: 0 20px 0 58px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+    .qa-item.open .qa-answer { max-height: 2000px; padding: 0 20px 20px 58px; }
+    .qa-answer p { font-size: 14px; margin-bottom: 10px; line-height: 1.8; }
+    .qa-answer ul { padding-left: 18px; margin-bottom: 10px; }
+    .qa-answer li { font-size: 14px; margin-bottom: 6px; line-height: 1.7; }
+    .qa-answer code {
+      background: var(--code-bg); padding: 2px 6px; border-radius: 3px;
+      font-size: 13px; font-family: 'SF Mono','Fira Code',monospace;
+    }
+    .qa-answer pre {
+      background: #1e293b; color: #e2e8f0; border-radius: 8px;
+      padding: 16px; margin: 12px 0; overflow-x: auto;
+      font-size: 12.5px; line-height: 1.5;
+      font-family: 'SF Mono','Fira Code',monospace;
+    }
+    .highlight {
+      background: #fef3c7; padding: 2px 6px; border-radius: 3px; font-weight: 500;
+    }
+    .bonus {
+      background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 8px;
+      padding: 12px 16px; margin-top: 12px; font-size: 13px;
+    }
+    .bonus::before { content: '💡 面试加分：'; font-weight: 600; color: #065f46; }
+    .tag {
+      display: inline-block; padding: 2px 8px; border-radius: 4px;
+      font-size: 11px; font-weight: 600; margin-left: 8px;
+    }
+    .tag-ai { background: #dbeafe; color: #1d4ed8; }
+    .tag-arch { background: #ede9fe; color: #6d28d9; }
+    .tag-fe { background: #d1fae5; color: #065f46; }
+    .tag-be { background: #fef3c7; color: #92400e; }
+    .tag-eng { background: #e0e7ff; color: #3730a3; }
+    .tag-dev { background: #fce7f3; color: #9d174d; }
+    .tag-ext { background: #f1f5f9; color: #475569; }
+    @media (max-width: 900px) { .sidebar { display: none; } .main { margin-left: 0; padding: 24px; } }
+    @media print { .sidebar { display: none; } .main { margin-left: 0; } .qa-answer { max-height: none !important; padding: 0 20px 20px 58px !important; } }
+  </style>
+</head>
+<body>
+  <nav class="sidebar">
+    <div class="sidebar-title"><span>面试题集</span> PC Hardware CS Agent</div>
+    <div class="nav-section">面试流程</div>
+    <a class="nav-link" href="#sec-overview">1. 项目概述</a>
+    <a class="nav-link" href="#sec-techstack">2. 技术栈选型</a>
+    <a class="nav-link" href="#sec-tooluse">3. Claude API & Tool Use</a>
+    <a class="nav-link" href="#sec-prompt">4. Prompt Engineering</a>
+    <a class="nav-link" href="#sec-arch">5. 架构设计</a>
+    <a class="nav-link" href="#sec-ws">6. WebSocket & 实时通信</a>
+    <a class="nav-link" href="#sec-eng">7. 工程实践</a>
+    <a class="nav-link" href="#sec-aidev">8. AI 辅助开发</a>
+    <a class="nav-link" href="#sec-extend">9. 扩展与改进</a>
+  </nav>
+
+  <main class="main">
+    <div class="page-header">
+      <h1>PC Hardware CS Agent 面试题深度解析</h1>
+      <p>基于简历描述，从技术栈到实现细节的完整面试准备</p>
+    </div>
+
+    <!-- ===== 1. 项目概述 ===== -->
+    <section class="section" id="sec-overview">
+      <h2 class="section-title"><span class="num">1</span> 项目概述类</h2>
+
+      <div class="qa-item open">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          请介绍一下你的这个项目，它解决了什么问题？
+          <span class="tag tag-ai">项目</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p>这是一个面向 PC 硬件公司的 AI 智能客服系统。公司产品线包括机箱、电源、散热器和带屏幕的智能产品。</p>
+          <p><strong>解决的核心问题：</strong></p>
+          <ul>
+            <li><strong>售前</strong>：用户经常问"我的机箱能不能装某张显卡/某个散热器"，传统客服需要查表对比参数，AI Agent 可以自动调用兼容性检测工具给出结论</li>
+            <li><strong>售后</strong>：屏幕不亮、电源异响等故障排查有标准流程，AI 可以从知识库中检索并引导用户逐步排查</li>
+            <li><strong>效率</strong>：7×24 小时自动应答，减少人工客服重复劳动，复杂问题再转人工</li>
+          </ul>
+          <p>技术上的核心是基于 Claude 的 Tool Use（Function Calling）能力，让 AI 不只是聊天，而是能主动调用工具查数据库、做计算，然后基于工具返回的结果生成准确回复。</p>
+          <div class="bonus">用具体数据说明规模：覆盖 4 条产品线、11 个 SKU、6 种兼容性检查类型、7 篇知识库文档。展示你对项目边界的清晰认知。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么选择自己做这个项目？动机是什么？
+          <span class="tag tag-dev">动机</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>技术动机：</strong></p>
+          <ul>
+            <li>想深入实践 LLM 应用开发中最核心的模式——Tool Use / Function Calling，不只是调 API 生成文本，而是让 AI 具备"行动能力"</li>
+            <li>想验证一个完整的 AI Agent 从前端到后端到数据层的全链路实现</li>
+            <li>想探索 AI 辅助开发（Claude Code）在实际项目中的效率提升</li>
+          </ul>
+          <p><strong>业务动机：</strong></p>
+          <ul>
+            <li>PC 硬件兼容性是一个非常适合 Tool Use 的场景——需要查数据、做比较、给结论，不是纯文本生成</li>
+            <li>客服场景有明确的输入输出、可量化的成功标准（问题是否解决），适合作为 AI Agent 的落地场景</li>
+          </ul>
+          <div class="bonus">强调"选择这个场景是因为它天然适合 Tool Use"——展示你对 AI 能力边界的理解，知道什么场景适合用 AI、什么不适合。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          这个项目的整体数据流是怎样的？从用户输入到最终回复经历了哪些步骤？
+          <span class="tag tag-arch">数据流</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>完整链路（以"我的机箱能装 RTX 4090 吗"为例）：</strong></p>
+          <ul>
+            <li>1. 用户在 Chat Widget 输入消息 → useChat Hook 通过 WebSocket 发送 JSON</li>
+            <li>2. Fastify Server /ws 路由接收 → 恢复/创建 Session</li>
+            <li>3. Orchestrator 构建请求：System Prompt + 历史消息 + 3 个工具定义</li>
+            <li>4. 调用 Claude Messages API → Claude 返回 <code>stop_reason: "tool_use"</code></li>
+            <li>5. 解析 tool_use block → Tool Registry 执行 <code>check_compatibility</code></li>
+            <li>6. 工具查询 SQLite → 比较 max_gpu_length vs 用户显卡长度 → 返回兼容性结论</li>
+            <li>7. 将 tool_result 回传 Claude → Claude 生成自然语言回复</li>
+            <li>8. 通过 WebSocket stream 事件逐片段推送到前端</li>
+            <li>9. useChat Hook 拼接流式片段，实时渲染"打字机效果"</li>
+          </ul>
+          <p>关键点：步骤 4-7 可能循环多次（如先查产品参数，再做兼容性检查），直到 Claude 返回 <code>stop_reason: "end_turn"</code> 才退出循环。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2. 技术栈选型 ===== -->
+    <section class="section" id="sec-techstack">
+      <h2 class="section-title"><span class="num">2</span> 技术栈选型类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          这个项目用到了哪些核心技术？为什么选择这些技术？
+          <span class="tag tag-eng">技术栈</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>核心技术栈：</strong></p>
+          <ul>
+            <li><strong>TypeScript</strong> — 全栈语言，前后端共享类型定义，编译期发现接口不匹配</li>
+            <li><strong>Claude API (Anthropic SDK)</strong> — LLM 引擎，选择 Claude 是因为其 Tool Use 能力成熟、响应质量高</li>
+            <li><strong>Tool Use / Function Calling</strong> — 让 AI 不只生成文本，还能调用工具执行操作</li>
+            <li><strong>Prompt Engineering</strong> — 动态 System Prompt + Slot Filling + Prompt Caching</li>
+            <li><strong>WebSocket</strong> — 实时流式推送 AI 回复，用户体验远优于 HTTP 轮询</li>
+            <li><strong>Fastify 5</strong> — 高性能 Node.js 框架，原生 WebSocket 支持</li>
+            <li><strong>SQLite (WAL mode)</strong> — 嵌入式数据库，零运维，适合结构化知识库</li>
+            <li><strong>Preact + Web Component</strong> — 极小体积的可嵌入式 UI 组件</li>
+            <li><strong>pnpm + Turborepo</strong> — Monorepo 工程化，并行构建</li>
+          </ul>
+          <div class="bonus">不要只列技术名，要说"为什么选它而不是替代方案"。比如选 Fastify 而不是 Express 是因为性能和原生 WS 支持；选 SQLite 而不是向量数据库是因为数据结构化且规模小。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么选 Claude 而不是 GPT-4 或其他 LLM？
+          <span class="tag tag-ai">选型</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>选择 Claude 的理由：</strong></p>
+          <ul>
+            <li><strong>Tool Use 能力成熟</strong>：Claude 的 Function Calling 实现稳定，stop_reason 机制清晰（tool_use / end_turn），循环控制可靠</li>
+            <li><strong>中文能力强</strong>：客服场景全中文交互，Claude 的中文理解和生成质量优秀</li>
+            <li><strong>Prompt Caching</strong>：Anthropic 提供 cache_control 机制，可以缓存 System Prompt 的静态部分，降低多轮对话的 Token 成本</li>
+            <li><strong>安全性</strong>：Claude 的 Constitutional AI 训练使其在客服场景中更不容易产生不当回复</li>
+          </ul>
+          <p><strong>与 GPT-4 的对比：</strong></p>
+          <ul>
+            <li>GPT-4 的 Function Calling 也很成熟，但 Prompt Caching 机制不同（OpenAI 是自动缓存，Anthropic 是显式标记）</li>
+            <li>Claude 的上下文窗口更大（200K），适合长对话历史</li>
+            <li>实际选择也考虑了 API 可用性和成本</li>
+          </ul>
+          <div class="bonus">展示你对多个 LLM 平台的了解，而不是"只会用一个"。提到你评估过替代方案，最终基于具体需求做出选择。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么选 TypeScript 而不是 Python？AI 项目不是 Python 更常见吗？
+          <span class="tag tag-eng">选型</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>选 TypeScript 的理由：</strong></p>
+          <ul>
+            <li><strong>全栈统一</strong>：前端 Widget（Preact）和后端（Fastify）用同一语言，共享类型定义包，接口契约编译期校验</li>
+            <li><strong>这不是 ML 训练项目</strong>：不需要 PyTorch/TensorFlow，只是调用 Claude API。Anthropic 的 TypeScript SDK 和 Python SDK 功能完全一致</li>
+            <li><strong>WebSocket 生态</strong>：Node.js 的异步 I/O 模型天然适合 WebSocket 长连接场景</li>
+            <li><strong>部署简单</strong>：单一运行时（Node.js），不需要 Python 虚拟环境管理</li>
+          </ul>
+          <p>如果项目涉及模型微调、Embedding 计算、向量检索等 ML 密集操作，Python 会是更好的选择。但纯 API 调用 + Web 服务的场景，TypeScript 全栈更高效。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么用 SQLite 而不是 PostgreSQL 或向量数据库？
+          <span class="tag tag-be">选型</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>选 SQLite 的理由：</strong></p>
+          <ul>
+            <li><strong>数据特征</strong>：产品规格和知识库是结构化数据（有明确的 category、product_line 字段），关系型查询比向量检索更自然</li>
+            <li><strong>规模匹配</strong>：11 个产品 + 7 篇知识库文档，向量数据库的优势在大规模非结构化文本中才体现</li>
+            <li><strong>零运维</strong>：嵌入式数据库，随应用启动，不需要独立的数据库服务</li>
+            <li><strong>WAL 模式</strong>：支持读写并发——Admin 写入新数据时不阻塞客服查询</li>
+          </ul>
+          <p><strong>什么时候该切换：</strong></p>
+          <ul>
+            <li>知识库超过 100 篇 → 考虑 FTS5 全文索引或向量数据库</li>
+            <li>多实例部署 → 切换 PostgreSQL</li>
+            <li>需要语义搜索 → 加入 Embedding + 向量检索层</li>
+          </ul>
+          <div class="bonus">展示"不过度工程化"的判断力——选择匹配当前规模的方案，同时清楚演进路径。面试官喜欢听到"我知道什么时候该升级"。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. Claude API & Tool Use ===== -->
+    <section class="section" id="sec-tooluse">
+      <h2 class="section-title"><span class="num">3</span> Claude API & Tool Use 类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          什么是 Tool Use / Function Calling？它和普通的 LLM 对话有什么区别？
+          <span class="tag tag-ai">核心概念</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>普通对话</strong>：用户输入 → LLM 生成文本回复。模型只能基于训练数据回答，无法获取实时信息。</p>
+          <p><strong>Tool Use</strong>：用户输入 → LLM 判断需要调用哪个工具 → 返回工具调用请求（名称 + 参数）→ 应用层执行工具 → 将结果回传 LLM → LLM 基于工具结果生成最终回复。</p>
+          <p><strong>关键区别：</strong></p>
+          <ul>
+            <li>LLM 不直接执行工具，只是"决定"调用什么工具、传什么参数</li>
+            <li>实际执行在应用层（我的 Tool Registry），LLM 看到的是执行结果的文本</li>
+            <li>这让 AI 能访问实时数据（数据库查询）、执行计算（兼容性比较）、触发操作（发邮件、创建工单）</li>
+          </ul>
+          <p><strong>在我的项目中</strong>：Claude 可以调用 3 个工具——查产品参数、检查兼容性、搜索知识库。它根据用户问题自主决定调用哪个。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          你的 Agent Orchestrator 循环引擎是怎么实现的？为什么需要"循环"？
+          <span class="tag tag-ai">核心实现</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>为什么需要循环：</strong>Claude 在一次对话中可能需要调用多个工具。比如用户问"幻影X1能装什么散热器"，Claude 可能先调用 <code>lookup_product</code> 查机箱的 max_cooler_height，再调用 <code>search_knowledge_base</code> 搜索散热器推荐。每次工具调用都需要一个完整的 API 请求-响应周期。</p>
+          <p><strong>实现逻辑：</strong></p>
+<pre>while (continueLoop) {
+  response = await claude.messages.create({
+    model, system, messages, tools
+  })
+
+  if (response.stop_reason === "tool_use") {
+    // Claude 需要调用工具
+    for (block of toolUseBlocks) {
+      result = await executeTool(block.name, block.input)
+      toolResults.push({ tool_use_id, content: result })
+    }
+    // 将 assistant 响应 + tool_result 加入消息历史
+    messages.push({ role: "assistant", content: response.content })
+    messages.push({ role: "user", content: toolResults })
+    // 继续循环
+
+  } else { // stop_reason === "end_turn"
+    // Claude 生成了最终回复，退出循环
+    continueLoop = false
+  }
+}</pre>
+          <p><strong>关键设计点：</strong></p>
+          <ul>
+            <li><code>stop_reason</code> 是循环控制的唯一依据——"tool_use" 继续，"end_turn" 退出</li>
+            <li>tool_result 必须以 <code>role: "user"</code> 回传（Claude API 协议要求）</li>
+            <li>每次循环都带上完整的消息历史，Claude 能看到之前所有工具的调用和结果</li>
+          </ul>
+          <div class="bonus">能画出这个循环的流程图，或者在白板上写出伪代码，说明你真正理解了 Tool Use 的工作机制，而不只是调了个 API。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Tool Use 循环如何防止无限调用？有没有可能 Claude 一直调工具不停？
+          <span class="tag tag-ai">边界处理</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>Claude 自身的终止机制：</strong></p>
+          <p>Claude 在获得足够信息后会自然选择 <code>stop_reason: "end_turn"</code>。在 System Prompt 中我明确指导了："如果工具未返回有用结果，不要重复调用，直接告知用户并建议转人工"。</p>
+          <p><strong>可以加的额外安全措施（面试中提到改进方向）：</strong></p>
+          <ul>
+            <li>设置 <code>max_iterations = 10</code>，超过强制退出并返回已有文本</li>
+            <li>设置单次对话的 token 预算上限</li>
+            <li>记录每次循环的工具调用，检测重复调用同一工具+相同参数的情况</li>
+          </ul>
+          <p><strong>实际经验</strong>：在 PC 硬件客服场景中，典型对话只需 1-2 次工具调用，极少超过 3 次。场景的确定性高，不容易出现无限循环。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          工具定义（Tool Definition）是怎么传给 Claude 的？Claude 怎么知道有哪些工具可用？
+          <span class="tag tag-ai">API 协议</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p>在调用 <code>messages.create</code> 时，通过 <code>tools</code> 参数传入工具定义数组。每个工具包含：</p>
+<pre>{
+  name: "check_compatibility",
+  description: "检查两个硬件之间的兼容性...",
+  input_schema: {
+    type: "object",
+    properties: {
+      product_sku: { type: "string", description: "产品SKU" },
+      target_spec: { type: "string", description: "目标规格值" },
+      check_type: { type: "string", enum: ["case_gpu","case_motherboard",...] }
+    },
+    required: ["product_sku", "target_spec", "check_type"]
+  }
+}</pre>
+          <p><strong>Claude 的决策过程：</strong></p>
+          <ul>
+            <li>Claude 阅读所有工具的 <code>description</code> 和 <code>input_schema</code></li>
+            <li>根据用户问题判断是否需要调用工具、调用哪个、传什么参数</li>
+            <li><code>description</code> 的质量直接影响 Claude 的调用准确性——这也是 Prompt Engineering 的一部分</li>
+          </ul>
+          <p>我的 Tool Registry 通过 <code>getEnabledTools()</code> 方法返回所有已启用工具的定义，自动过滤掉 <code>enabled: false</code> 的工具。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          如果 Claude 调用了一个不存在的工具，或者传了错误的参数，怎么处理？
+          <span class="tag tag-ai">错误处理</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>Tool Registry 的统一错误处理：</strong></p>
+<pre>async function executeTool(name, input) {
+  const tool = tools.get(name);
+  if (!tool) return `错误：未找到工具 "${name}"`;
+  if (!tool.enabled) return `错误：工具 "${name}" 当前未启用`;
+  try {
+    return await tool.handler(input);
+  } catch (err) {
+    return `工具执行出错：${err.message}`;
+  }
+}</pre>
+          <p><strong>设计思路：</strong></p>
+          <ul>
+            <li>错误信息作为 <code>tool_result</code> 回传给 Claude，而不是抛异常中断对话</li>
+            <li>Claude 看到错误信息后，会自行决定：重试、换个工具、或直接告知用户</li>
+            <li>这样即使工具出错，对话也不会中断，用户体验不受影响</li>
+          </ul>
+          <p><strong>实际上 Claude 很少传错参数</strong>：因为 <code>input_schema</code> 用 JSON Schema 严格定义了参数类型和枚举值，Claude 会遵守 schema 约束。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 4. Prompt Engineering ===== -->
+    <section class="section" id="sec-prompt">
+      <h2 class="section-title"><span class="num">4</span> Prompt Engineering 类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          你的 System Prompt 是怎么设计的？包含哪些部分？
+          <span class="tag tag-ai">Prompt</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>System Prompt 结构（约 800 tokens）：</strong></p>
+          <ul>
+            <li><strong>角色定位</strong>：定义 AI 是"专业的 PC 硬件客服助手"，明确服务的产品线</li>
+            <li><strong>行为准则</strong>：6 条规则，如"先确认型号再给方案"、"兼容性问题必须用工具验证"、"超出能力范围诚实告知"</li>
+            <li><strong>产品线概览</strong>：机箱/电源/散热器/智能产品的关键参数维度</li>
+            <li><strong>常见问题处理策略</strong>：屏幕不亮排查流程、兼容性咨询流程、售后服务流程</li>
+            <li><strong>语气要求</strong>：称呼"您"、表达同理心、结尾确认</li>
+            <li><strong>转人工条件</strong>：明确 4 种需要转人工的场景</li>
+            <li><strong>动态上下文</strong>（运行时注入）：当前会话已收集的产品型号、购买日期、问题分类</li>
+          </ul>
+          <div class="bonus">能说出 System Prompt 的具体结构和设计理由，展示你不是随便写了一段话，而是有策略地组织 Prompt 的各个部分。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          什么是"动态 System Prompt"？为什么不让 Claude 自己从历史消息中提取上下文？
+          <span class="tag tag-ai">Prompt</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>动态 System Prompt 机制：</strong>根据会话进展，实时将已收集的上下文信息注入到 System Prompt 末尾。</p>
+<pre>// 动态注入的上下文示例
+## 当前对话上下文
+- 用户咨询的产品型号：CASE-ATX-001（幻影X1）
+- 购买时间：2024年3月
+- 问题分类：兼容性咨询
+- 已收集信息：
+  - 显卡型号：RTX 4090
+  - 显卡长度：336mm</pre>
+          <p><strong>为什么不让 Claude 自己提取：</strong></p>
+          <ul>
+            <li><strong>减少 Token 消耗</strong>：历史消息可能很长，但关键上下文只需几行。结构化注入比让模型每次重新理解更高效</li>
+            <li><strong>提升准确性</strong>：结构化数据比从自然语言中提取更可靠，避免遗漏或误解</li>
+            <li><strong>配合 Prompt Caching</strong>：静态部分可被缓存，只有动态上下文变化。最大化可缓存前缀长度</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          什么是 Slot Filling？在你的项目中是怎么实现的？
+          <span class="tag tag-ai">Prompt</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>Slot Filling（槽位填充）</strong>：对话系统中逐步收集完成任务所需信息的模式。每个"槽位"代表一个必要信息。</p>
+          <p><strong>在我的项目中：</strong></p>
+          <ul>
+            <li>Session 中维护 <code>context: { productModel, purchaseDate, issueCategory, collectedSlots: {} }</code></li>
+            <li>随着对话进展，逐步填充：用户说"我买的是幻影X1" → 填入 productModel</li>
+            <li>已填充的槽位注入到 System Prompt，Claude 在后续回复中不会重复询问已知信息</li>
+            <li>所有槽位填满后，Claude 可以直接给出解决方案，而不是继续追问</li>
+          </ul>
+          <p><strong>效果</strong>：多轮对话的效率显著提升。用户不需要在每条消息中重复说"我的产品是XX"，系统会记住并利用已有信息。</p>
+          <div class="bonus">Slot Filling 是任务型对话系统的经典模式（源自 Rasa、Dialogflow 等框架），在 LLM 时代通过动态 Prompt 注入实现，比传统的状态机更灵活。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Prompt Caching 是怎么工作的？在你的项目中节省了多少成本？
+          <span class="tag tag-ai">优化</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>Anthropic Prompt Caching 原理：</strong></p>
+          <p>通过在请求中标记 <code>cache_control: { type: "ephemeral" }</code>，Anthropic 缓存 System Prompt 的前缀部分。同一会话的后续请求如果前缀相同，不需要重新处理这部分 token。</p>
+          <p><strong>在本项目中的应用：</strong></p>
+          <ul>
+            <li>System Prompt 静态部分约 800 tokens（角色 + 行为准则 + 产品线 + 策略）</li>
+            <li>动态上下文放在末尾，最大化可缓存的前缀长度</li>
+            <li>每次 Tool Use 循环都会重新调用 API，但静态前缀被缓存</li>
+            <li>一次典型对话（2-3 轮工具调用）节省约 1600-2400 tokens 的输入处理成本</li>
+          </ul>
+          <p><strong>缓存命中条件</strong>：请求的前缀（system + 前面的 messages）与缓存完全匹配。所以动态内容放末尾是关键设计。</p>
+          <div class="bonus">能解释"为什么动态内容放末尾"——因为缓存是前缀匹配，前面不变的部分越长，缓存命中率越高。这展示了你对 Caching 机制的深入理解。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5. 架构设计 ===== -->
+    <section class="section" id="sec-arch">
+      <h2 class="section-title"><span class="num">5</span> 架构设计类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Tool Registry（工具注册中心）是怎么设计的？为什么要做成插件式？
+          <span class="tag tag-arch">核心设计</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>设计：</strong>基于 <code>Map&lt;string, ToolDefinition&gt;</code> + 接口抽象的动态注册机制。</p>
+<pre>interface ToolDefinition {
+  name: string;              // 工具名称
+  description: string;       // 描述（给 Claude 看）
+  input_schema: object;      // JSON Schema 参数定义
+  handler: (input) => Promise&lt;string&gt;;  // 执行逻辑
+  enabled: boolean;          // 是否启用
+}</pre>
+          <p><strong>为什么插件式：</strong></p>
+          <ul>
+            <li><strong>开闭原则</strong>：新增工具不需要修改 Orchestrator、Routes 或任何已有工具的代码</li>
+            <li><strong>灰度上线</strong>：<code>enabled</code> 字段支持注册但不启用，可以通过配置动态开关</li>
+            <li><strong>统一错误处理</strong>：<code>executeTool()</code> 统一 try-catch，工具实现者不需要关心错误如何回传给 Claude</li>
+            <li><strong>可测试性</strong>：每个工具是独立函数，可以单独单元测试</li>
+          </ul>
+          <p><strong>新增工具的步骤：</strong></p>
+          <ul>
+            <li>1. 创建 <code>tools/my-tool.ts</code>，实现 handler 函数</li>
+            <li>2. 调用 <code>registerTool({ name, description, input_schema, handler, enabled: true })</code></li>
+            <li>3. 在 <code>tools/index.ts</code> 中 import。完成。</li>
+          </ul>
+          <div class="bonus">这是开闭原则（OCP）的实际应用。面试官可能追问"如果要加一个订单查询工具需要改哪些文件"——答案是"只需要新建一个文件 + 一行 import"，核心代码零修改。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          硬件兼容性规则引擎是怎么实现的？为什么不硬编码规则？
+          <span class="tag tag-arch">规则引擎</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>实现方式：策略模式 + 数据驱动。</strong></p>
+          <p>6 种检查类型通过 <code>check_type</code> 映射到对应的检查函数：</p>
+<pre>const checks = {
+  case_motherboard: () => {
+    // 从 specs.supported_motherboards 数组中匹配
+  },
+  case_gpu: () => {
+    // 比较 specs.max_gpu_length vs 用户输入的长度
+  },
+  case_cooler: () => {
+    // 比较 specs.max_cooler_height vs 散热器高度
+  },
+  case_psu: () => {
+    // 从 specs.supported_psu_types 数组中匹配
+  },
+  cooler_socket: () => {
+    // 从 specs.supported_sockets 数组中匹配
+  },
+  psu_connector: () => {
+    // 从 specs.connectors 数组中模糊匹配
+  }
+}
+const result = checks[check_type]();</pre>
+          <p><strong>为什么不硬编码：</strong></p>
+          <ul>
+            <li>规则依赖产品的 <code>specs</code> JSON 数据，不同产品的参数不同</li>
+            <li>Admin 后台可以修改产品 specs，规则自动适配新数据</li>
+            <li>新增产品线只需在数据库中添加数据，不需要改代码</li>
+          </ul>
+          <div class="bonus">提到"策略模式"这个设计模式名称，展示你有设计模式的知识储备。同时强调"数据驱动"——规则的具体阈值来自数据库，不是代码中的魔法数字。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          会话管理是怎么设计的？Session Store 为什么用内存而不是 Redis？
+          <span class="tag tag-arch">状态管理</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>Session Store 设计：</strong></p>
+          <ul>
+            <li>使用内存 <code>Map&lt;string, Session&gt;</code> 存储活跃会话</li>
+            <li>每个 Session 包含：id、消息历史、上下文（Slot Filling 数据）、最后活跃时间</li>
+            <li>30 分钟 TTL 过期清理，防止内存泄漏</li>
+            <li>通过 <code>sessionId</code> 在 WebSocket 重连后恢复会话</li>
+          </ul>
+          <p><strong>为什么用内存：</strong></p>
+          <ul>
+            <li>单实例部署，不需要跨进程共享</li>
+            <li>客服对话通常 5-10 分钟结束，数据量可控</li>
+            <li>内存读写 O(1)，零网络延迟</li>
+            <li>会话数据不需要持久化（对话结束即可丢弃）</li>
+          </ul>
+          <p><strong>切换 Redis 的信号：</strong>多实例部署、需要服务重启恢复、并发会话数超过数千。代码已通过模块封装预留了替换路径——只需修改 <code>session/store.ts</code> 的内部实现。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 6. WebSocket & 实时通信 ===== -->
+    <section class="section" id="sec-ws">
+      <h2 class="section-title"><span class="num">6</span> WebSocket & 实时通信类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么用 WebSocket 而不是 HTTP 轮询或 SSE？
+          <span class="tag tag-be">通信</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>三种方案对比：</strong></p>
+          <ul>
+            <li><strong>HTTP 轮询</strong>：客户端定时请求，延迟高（轮询间隔）、浪费带宽（大量空响应）、不适合流式输出</li>
+            <li><strong>SSE (Server-Sent Events)</strong>：服务端单向推送，适合流式输出，但只能服务端→客户端，客户端发消息还需要额外的 HTTP 请求</li>
+            <li><strong>WebSocket</strong>：全双工，客户端和服务端都能随时发消息，一个连接搞定所有通信</li>
+          </ul>
+          <p><strong>选 WebSocket 的理由：</strong></p>
+          <ul>
+            <li>客服对话是<strong>双向交互</strong>：用户发消息 + 服务端推流式回复，WebSocket 天然匹配</li>
+            <li>多轮对话复用同一连接，无需每次建连</li>
+            <li>可以实现服务端主动推送（如超时提醒、转人工通知）</li>
+            <li>Fastify 原生支持 WebSocket，集成成本低</li>
+          </ul>
+          <div class="bonus">同时提到项目也保留了 HTTP POST 接口（/api/chat），用于不支持 WebSocket 的环境或服务端到服务端集成。展示你考虑了多种接入场景。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          流式响应是怎么实现的？从服务端到前端的完整链路是什么？
+          <span class="tag tag-be">流式</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>三层流式管道：</strong></p>
+          <ul>
+            <li><strong>Orchestrator 层</strong>：定义 <code>StreamCallbacks</code> 接口（onText / onDone / onError），每收到 Claude 的文本片段就触发 onText</li>
+            <li><strong>传输层</strong>：WebSocket route 在 onText 回调中立即 <code>socket.send({ type:"stream", content })</code></li>
+            <li><strong>渲染层</strong>：前端 useChat Hook 维护 <code>streamBufferRef</code>，每收到 stream 事件就拼接并更新 React 状态</li>
+          </ul>
+          <p><strong>前端流式渲染细节：</strong></p>
+<pre>ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  if (data.type === "stream") {
+    streamBufferRef.current += data.content;
+    setMessages(prev => {
+      // 更新最后一条 assistant 消息的 content
+      const last = prev[prev.length - 1];
+      if (last?.id === "streaming") {
+        return [...prev.slice(0,-1), {...last, content: streamBufferRef.current}];
+      }
+      return [...prev, {id:"streaming", role:"assistant", content: streamBufferRef.current}];
+    });
+  }
+  if (data.type === "done") {
+    // 用最终消息替换临时的 streaming 消息
+    streamBufferRef.current = "";
+    setMessages(prev => [...prev.filter(m => m.id !== "streaming"), data.message]);
+  }
+}</pre>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          WebSocket 断线了怎么办？如何保证用户体验？
+          <span class="tag tag-be">容错</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>当前实现：</strong></p>
+          <ul>
+            <li>前端 <code>ws.onclose</code> 触发 3 秒后自动重连</li>
+            <li>重连后通过 <code>sessionId</code> 恢复已有会话（历史消息保留在服务端 Session 中）</li>
+            <li>正在生成的回复会丢失，但用户可以重新发送消息继续对话</li>
+          </ul>
+          <p><strong>用户体验保障：</strong></p>
+          <ul>
+            <li>断线期间用户发送的消息不会丢失（前端乐观更新已显示在 UI 中）</li>
+            <li>重连成功后会话上下文完整恢复（Session Store 中的 context 和 messages 都在）</li>
+            <li>错误时显示友好提示："抱歉，系统出现了问题，请稍后再试或联系人工客服"</li>
+          </ul>
+          <p><strong>可改进方向：</strong>加入消息 ACK 机制 + 客户端消息队列，实现断线期间消息的可靠投递；指数退避重连策略（3s → 6s → 12s）避免服务端压力。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          useChat Hook 为什么用 Ref 做流式缓冲区而不是 State？
+          <span class="tag tag-fe">前端</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>原因：避免闭包陷阱 + 减少不必要渲染。</strong></p>
+          <ul>
+            <li><strong>闭包陷阱</strong>：WebSocket 的 onmessage 回调在 useEffect 中注册，如果用 useState 存缓冲区，回调中拿到的永远是注册时的旧值</li>
+            <li><strong>Ref 的特性</strong>：<code>useRef</code> 返回的对象在组件整个生命周期中保持同一引用，<code>.current</code> 的修改不触发重渲染</li>
+            <li><strong>性能</strong>：流式响应可能每 50ms 一个 chunk，用 Ref 累积文本，只在需要更新 UI 时才 setState</li>
+          </ul>
+          <p>实际代码中每个 chunk 都会 <code>setMessages</code>（为了实时打字效果），但缓冲区本身用 Ref 确保了闭包中始终能拿到最新值。</p>
+          <div class="bonus">这是 React/Preact Hooks 的经典面试题。能结合实际场景（WebSocket + 高频更新）解释为什么用 Ref，比背概念更有说服力。</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 7. 工程实践 ===== -->
+    <section class="section" id="sec-eng">
+      <h2 class="section-title"><span class="num">7</span> 工程实践类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          为什么用 Monorepo？这个项目规模有必要吗？
+          <span class="tag tag-eng">工程化</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>核心理由：类型安全的跨包共享。</strong></p>
+          <p>项目有 3 个包：<code>@cs-agent/shared</code>（类型定义）、<code>@cs-agent/server</code>（后端）、<code>@cs-agent/widget</code>（前端）。前后端通过 WebSocket 通信，消息格式必须一致。</p>
+          <p><strong>Monorepo 的具体收益：</strong></p>
+          <ul>
+            <li>shared 包的类型变更能在编译期同时被 server 和 widget 感知，避免运行时类型不匹配</li>
+            <li>一次 <code>pnpm dev</code> 启动所有包的开发模式</li>
+            <li>Turborepo 缓存构建产物，CI 只重建变更的包</li>
+            <li>依赖版本统一管理，不会出现 server 和 widget 用不同版本的 shared</li>
+          </ul>
+          <p><strong>如果是多仓库：</strong>shared 包每次改动都要发 npm 包 → server/widget 更新依赖 → 联调周期变长。对于紧耦合的前后端项目，Monorepo 是更务实的选择。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Turborepo 在项目中解决了什么问题？
+          <span class="tag tag-eng">构建</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>核心问题：构建编排。</strong></p>
+          <p>3 个包有依赖关系：server 和 widget 都依赖 shared。构建顺序必须是 shared → server/widget（并行）。</p>
+          <p><strong>Turborepo 提供的能力：</strong></p>
+          <ul>
+            <li><strong>依赖感知</strong>：自动分析包间依赖，确定正确的构建顺序</li>
+            <li><strong>并行执行</strong>：无依赖关系的任务自动并行（server 和 widget 同时构建）</li>
+            <li><strong>增量构建</strong>：基于文件 hash 的缓存，未变更的包跳过构建</li>
+            <li><strong>任务管道</strong>：<code>turbo.json</code> 中声明 build/dev/test 的依赖关系</li>
+          </ul>
+          <p><strong>没有 Turborepo</strong>：手动写 shell 脚本串联 build 命令，改了 shared 要手动重建下游，CI 每次全量构建。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          Widget 为什么打包为 IIFE 而不是 ESM？Web Component 有什么优势？
+          <span class="tag tag-fe">前端</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>IIFE 的必要性：</strong></p>
+          <p>Widget 嵌入到第三方网站，无法假设宿主页面的构建环境：</p>
+          <ul>
+            <li>宿主可能是纯 HTML 页面，只能用 <code>&lt;script src="..."&gt;</code> 加载</li>
+            <li>宿主可能用不同的打包器，ESM 的 import map 配置各异</li>
+            <li>IIFE 自执行、自包含，加载即运行，零配置</li>
+          </ul>
+          <p><strong>Web Component (Custom Element + Shadow DOM) 的优势：</strong></p>
+          <ul>
+            <li><strong>样式隔离</strong>：Shadow DOM 阻止宿主 CSS 泄漏进来，也阻止 Widget CSS 影响宿主</li>
+            <li><strong>声明式使用</strong>：<code>&lt;cs-agent-widget data-ws-url="..."&gt;</code> 一行标签嵌入</li>
+            <li><strong>vs iframe</strong>：性能更好（共享 JS 运行时）、通信更简单（DOM 属性 vs postMessage）</li>
+          </ul>
+          <p><strong>为什么选 Preact 而不是 React</strong>：Widget 是第三方脚本，体积是关键。Preact ~3KB vs React ~40KB，13 倍差距在嵌入场景中是决定性因素。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 8. AI 辅助开发 ===== -->
+    <section class="section" id="sec-aidev">
+      <h2 class="section-title"><span class="num">8</span> AI 辅助开发类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          你提到用 Claude Code 进行开发，具体是怎么用的？效率提升有多大？
+          <span class="tag tag-dev">AI开发</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>Claude Code 在项目中的使用方式：</strong></p>
+          <ul>
+            <li><strong>架构设计阶段</strong>：描述需求后让 Claude Code 生成项目骨架、目录结构、包配置</li>
+            <li><strong>功能实现阶段</strong>：逐个模块实现，每次给出明确的功能描述和接口约束，Claude Code 生成实现代码</li>
+            <li><strong>调试阶段</strong>：遇到问题时描述现象，Claude Code 分析原因并修复</li>
+            <li><strong>重构阶段</strong>：代码写完后让 Claude Code 审查并优化</li>
+          </ul>
+          <p><strong>效率提升体现：</strong></p>
+          <ul>
+            <li>项目从零到完整功能约 2-3 周完成（传统开发预估 6-8 周）</li>
+            <li>样板代码（类型定义、配置文件、CRUD 接口）几乎零手写</li>
+            <li>复杂逻辑（Tool Use 循环、兼容性规则引擎）通过描述需求 + 迭代修改完成</li>
+          </ul>
+          <p><strong>关键经验：</strong></p>
+          <ul>
+            <li>AI 生成的代码需要人工审查——理解每一行代码是什么意思、为什么这样写</li>
+            <li>给 AI 的指令越精确，输出质量越高。模糊的需求会得到模糊的代码</li>
+            <li>AI 擅长实现已知模式，但架构决策（选什么技术、怎么分层）仍需人来做</li>
+          </ul>
+          <div class="bonus">强调"我理解每一行代码"——AI 是工具不是替代。面试官关心的是你是否真正掌握了技术，而不是只会让 AI 写代码。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          用 AI 辅助开发和传统开发相比，你觉得最大的区别是什么？
+          <span class="tag tag-dev">AI开发</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>最大区别：开发者的角色从"写代码"变成"设计 + 审查 + 验证"。</strong></p>
+          <ul>
+            <li><strong>传统</strong>：想清楚 → 写代码 → 调试 → 重构。大量时间花在"把想法翻译成代码"上</li>
+            <li><strong>AI 辅助</strong>：想清楚 → 描述需求 → 审查生成的代码 → 验证功能。时间花在"确保方向正确"和"验证质量"上</li>
+          </ul>
+          <p><strong>对开发者能力的新要求：</strong></p>
+          <ul>
+            <li><strong>系统设计能力更重要</strong>：你需要知道"应该怎么做"才能给出好的指令</li>
+            <li><strong>代码审查能力更重要</strong>：你需要能发现 AI 生成代码中的问题</li>
+            <li><strong>需求拆解能力更重要</strong>：把大任务拆成 AI 能处理的小任务</li>
+            <li><strong>技术判断力更重要</strong>：AI 可能给出多种方案，你需要选择最合适的</li>
+          </ul>
+          <div class="bonus">这个问题考察你对 AI 辅助开发的反思深度。不要只说"效率高了"，要说出对能力模型的影响——展示你是在"驾驭工具"而不是"依赖工具"。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          AI 生成的代码有没有出过问题？你是怎么发现和解决的？
+          <span class="tag tag-dev">质量</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>常见问题类型：</strong></p>
+          <ul>
+            <li><strong>过度工程化</strong>：AI 倾向于加入不必要的抽象层、错误处理、配置选项。需要人工精简</li>
+            <li><strong>上下文遗忘</strong>：长对话中 AI 可能忘记之前的设计决策，生成不一致的代码。需要明确重申约束</li>
+            <li><strong>边界条件遗漏</strong>：AI 实现了 happy path 但可能遗漏错误处理。需要人工补充</li>
+            <li><strong>依赖版本问题</strong>：AI 可能使用过时的 API 写法。需要对照最新文档验证</li>
+          </ul>
+          <p><strong>我的质量保障流程：</strong></p>
+          <ul>
+            <li>每个模块生成后立即阅读理解，确保逻辑正确</li>
+            <li>运行 TypeScript 编译检查类型错误</li>
+            <li>手动测试核心流程（发消息 → 工具调用 → 流式回复）</li>
+            <li>用 Vitest 写关键路径的单元测试</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 9. 扩展与改进 ===== -->
+    <section class="section" id="sec-extend">
+      <h2 class="section-title"><span class="num">9</span> 扩展与改进类</h2>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          如果要将这个项目部署到生产环境，你会做哪些改进？
+          <span class="tag tag-ext">生产化</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>按优先级排列：</strong></p>
+          <p><strong>P0 - 必须做：</strong></p>
+          <ul>
+            <li>Admin 后台加鉴权（JWT / Basic Auth），当前无访问控制</li>
+            <li>请求限流（Rate Limiting），防止 API 被滥用导致 Claude 费用失控</li>
+            <li>CORS 配置收紧（当前默认 *）</li>
+            <li>环境变量验证（启动时检查 ANTHROPIC_API_KEY 是否存在）</li>
+          </ul>
+          <p><strong>P1 - 应该做：</strong></p>
+          <ul>
+            <li>Session Store 切换 Redis（支持多实例 + 重启恢复）</li>
+            <li>结构化日志（pino）+ 对话记录持久化</li>
+            <li>Tool Use 循环加最大迭代次数限制</li>
+            <li>Widget 资源上 CDN + 版本化文件名</li>
+          </ul>
+          <p><strong>P2 - 可以做：</strong></p>
+          <ul>
+            <li>Docker 容器化 + docker-compose</li>
+            <li>知识库搜索升级 FTS5 全文索引</li>
+            <li>对话质量监控（满意度评分、转人工率）</li>
+            <li>A/B 测试不同 System Prompt 版本</li>
+          </ul>
+          <div class="bonus">展示你知道"什么该做什么不该做"的判断力。按 P0/P1/P2 分级说明你有生产环境意识，而不是只会写 demo。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          如果知识库规模扩大到 1000 篇文档，你会怎么改造搜索系统？
+          <span class="tag tag-ext">扩展</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>渐进式改造方案：</strong></p>
+          <p><strong>第一步：SQLite FTS5（100-500 篇）</strong></p>
+          <ul>
+            <li>启用 SQLite 的 FTS5 全文搜索扩展</li>
+            <li>加入中文分词（jieba 或 nodejieba）</li>
+            <li>支持 BM25 相关性排序</li>
+            <li>优势：零额外依赖，仍然是嵌入式</li>
+          </ul>
+          <p><strong>第二步：向量检索（500-5000 篇）</strong></p>
+          <ul>
+            <li>引入 Embedding 模型（如 text-embedding-3-small）</li>
+            <li>使用向量数据库（Pinecone / pgvector / Milvus）</li>
+            <li>实现语义搜索——"电脑不开机"能匹配到"电源无法启动"</li>
+            <li>混合检索：关键词 + 向量，取并集后重排序</li>
+          </ul>
+          <p><strong>第三步：RAG 优化（5000+ 篇）</strong></p>
+          <ul>
+            <li>文档分块（chunking）策略优化</li>
+            <li>查询改写（query rewriting）提升召回率</li>
+            <li>重排序模型（reranker）提升精度</li>
+          </ul>
+          <div class="bonus">展示你对 RAG 技术栈的完整认知——从简单到复杂的演进路径，而不是一上来就说"用向量数据库"。</div>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          如果要支持多语言（英文、日文客服），需要改哪些地方？
+          <span class="tag tag-ext">扩展</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>需要改动的层：</strong></p>
+          <ul>
+            <li><strong>System Prompt</strong>：根据用户语言切换 Prompt 语言，或在 Prompt 中指示"用用户的语言回复"</li>
+            <li><strong>知识库</strong>：每篇文档增加 <code>language</code> 字段，搜索时按语言过滤</li>
+            <li><strong>产品数据</strong>：产品名称和描述做多语言版本（specs 中的数值不需要翻译）</li>
+            <li><strong>Widget UI</strong>：快捷回复按钮、placeholder 文本做 i18n</li>
+            <li><strong>错误提示</strong>：工具返回的错误信息做多语言</li>
+          </ul>
+          <p><strong>不需要改的：</strong></p>
+          <ul>
+            <li>Orchestrator 循环逻辑——语言无关</li>
+            <li>Tool Registry 架构——工具的 handler 逻辑不涉及语言</li>
+            <li>WebSocket 通信协议——传输的是文本，语言透明</li>
+          </ul>
+          <p><strong>Claude 的优势</strong>：Claude 本身支持多语言，只需在 System Prompt 中指示语言策略，不需要额外的翻译服务。</p>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-question" onclick="this.parentElement.classList.toggle('open')">
+          这个项目最大的技术挑战是什么？你是怎么解决的？
+          <span class="tag tag-ext">反思</span><span class="arrow">▼</span>
+        </div>
+        <div class="qa-answer">
+          <p><strong>最大挑战：Tool Use 循环的正确性和可靠性。</strong></p>
+          <p><strong>具体难点：</strong></p>
+          <ul>
+            <li>Claude API 的消息格式要求严格——tool_result 必须以 role:"user" 回传，tool_use_id 必须匹配</li>
+            <li>多工具调用时的消息历史管理——assistant 的响应可能同时包含 text 和 tool_use blocks</li>
+            <li>流式输出和工具调用的交织——Claude 可能先输出一段文本，再调用工具，再输出文本</li>
+          </ul>
+          <p><strong>解决方法：</strong></p>
+          <ul>
+            <li>仔细阅读 Anthropic 官方文档的 Tool Use 协议规范</li>
+            <li>用最简单的单工具场景先跑通，再逐步增加复杂度</li>
+            <li>在 Orchestrator 中加入详细的日志，追踪每次循环的 stop_reason 和消息内容</li>
+            <li>编写针对不同场景的测试用例（单工具、多工具、工具出错、无需工具）</li>
+          </ul>
+          <div class="bonus">面试官喜欢听到"具体的困难 + 具体的解决过程"，而不是泛泛而谈。提到"先跑通最简单的场景再逐步增加复杂度"展示了工程思维。</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Sidebar active state on scroll
+    const sections = document.querySelectorAll('.section');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => link.classList.remove('active'));
+          const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(section => observer.observe(section));
+
+    // Auto-open first QA in each section
+    document.querySelectorAll('.section .qa-item:first-child').forEach(item => {
+      item.classList.add('open');
+    });
+  </script>
+</body>
+</html>
